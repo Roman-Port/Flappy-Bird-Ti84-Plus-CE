@@ -1,10 +1,8 @@
-### GraphX Simple Tilemap Demo
+### Flappy Bird Ti 84
 
-An example of tilemaping using a sequence of tiles and the keypad.
+An project I made in a weekend to play around with C.
 
 ![Screenshot](screenshot.gif)
 
----
-
-This demo is a part of the C SDK Toolchain for use on the CE.
+This project was compiled by the amazing Ti 84 Plus CE compiler [here](https://github.com/CE-Programming/toolchain,"Toolchain")
 
