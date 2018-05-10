@@ -1,0 +1,949 @@
+
+IEEE 695 OMF Linker Version 6.25 (11121301)
+Copyright (C) 1999-2008 Zilog, Inc. All Rights Reserved
+
+LINK MAP:
+
+DATE:      Sun Apr 29 21:49:33 2018
+PROCESSOR: assembler
+FILES:     obj\main.obj           
+           obj\tilemapdata.obj
+           obj\arrow.obj          obj\bird.obj           obj\bird_45.obj        
+           obj\bird_90.obj        obj\pause.obj          
+           obj\sprite_2nd_0.obj
+           obj\sprite_2nd_1.obj
+           obj\sprite_dither.obj
+           obj\sprite_number_00.obj
+           obj\sprite_number_01.obj
+           obj\sprite_number_02.obj
+           obj\sprite_number_03.obj
+           obj\sprite_number_04.obj
+           obj\sprite_number_05.obj
+           obj\sprite_number_06.obj
+           obj\sprite_number_07.obj
+           obj\sprite_number_08.obj
+           obj\sprite_number_09.obj
+           obj\sprite_scoreboard.obj
+           obj\tiles_gfx.obj
+           obj\tileset.obj        
+           C:\CEdev\lib\ccleanup.obj
+           C:\CEdev\lib\cce.lib
+           C:\CEdev\lib\cshared.lib
+           C:\CEdev\lib\clinked.lib
+           C:\CEdev\lib\graphx.lib
+           C:\CEdev\lib\fileioc.lib
+           C:\CEdev\lib\graphx_header.obj
+           C:\CEdev\lib\fileioc_header.obj
+           C:\CEdev\lib\libheader.obj
+           C:\CEdev\lib\cstartup.obj
+           
+
+
+COMMAND LIST:
+=============
+-FORMAT=INTEL32 -map -maxhexlen=64 -quiet -warnoverlap -xref -unresolved=fatal -sort ADDRESS=ascending -warn -NOdebug -NOigcase define __copy_code_to_ram = 0 range rom $000000 : $3FFFFF range ram $D00000 : $FFFFFF range bss $D031F6 : $D13FD6 change code is ram change data is ram change text is ram change strsect is text define __low_bss = base of bss define __len_bss = length of bss define __heaptop = (highaddr of bss) define __heapbot = (top of bss)+1 define __stack = $D1A87E locate .header at $D1A87F locate .launcher at (top of .header)+1 locate .libs at (top of .launcher)+1 locate .graphx_header at (top of .libs)+1 locate .graphx at (top of .graphx_header)+1 locate .fileioc_header at (top of .graphx+1) locate .fileioc at (top of .fileioc_header)+1 locate .startup at (top of .fileioc)+1 locate .cleanup at (top of .startup)+1 locate .exit at (top of .cleanup)+1 locate code at (top of .exit)+1 locate data at (top of code)+1 locate text at (top of data)+1 bin/PETROCK.hex = obj\main.obj,obj\tilemapdata.obj,obj\arrow.obj,obj\bird.obj,obj\bird_45.obj,obj\bird_90.obj,obj\pause.obj,obj\sprite_2nd_0.obj,obj\sprite_2nd_1.obj,obj\sprite_dither.obj,obj\sprite_number_00.obj,obj\sprite_number_01.obj,obj\sprite_number_02.obj,obj\sprite_number_03.obj,obj\sprite_number_04.obj,obj\sprite_number_05.obj,obj\sprite_number_06.obj,obj\sprite_number_07.obj,obj\sprite_number_08.obj,obj\sprite_number_09.obj,obj\sprite_scoreboard.obj,obj\tiles_gfx.obj,obj\tileset.obj,C:\CEdev\lib\ccleanup.obj,C:\CEdev\lib\cce.lib,C:\CEdev\lib\cshared.lib,C:\CEdev\lib\clinked.lib,C:\CEdev\lib\graphx.lib,C:\CEdev\lib\fileioc.lib,C:\CEdev\lib\graphx_header.obj,C:\CEdev\lib\fileioc_header.obj,C:\CEdev\lib\libheader.obj,C:\CEdev\lib\cstartup.obj 
+
+SPACE ALLOCATION:
+=================
+
+Space                     Base         Top      Size      Used    Unused
+------------------ ----------- ----------- --------- --------- ---------
+RAM                   D:D1A87F    D:D27C2B   300000H     D3ADH   2F2C53H
+                                          (  3145728     54189   3091539)
+
+
+SEGMENTS WITHIN SPACE:
+======================
+
+RAM                Type                Base        Top         Size
+------------------ ------------------- ----------- ----------- ---------
+.cleanup           normal data            D:D1A954    D:D1A967       14h
+.exit              normal data            D:D1A968    D:D1A96F        8h
+.fileioc_header    normal data            D:D1A90F    D:D1A918        ah
+.graphx            normal data            D:D1A8DB    D:D1A90E       34h
+.graphx_header     normal data            D:D1A8D2    D:D1A8DA        9h
+.header            normal data            D:D1A87F    D:D1A881        3h
+.launcher          normal data            D:D1A882    D:D1A8D1       50h
+.startup           normal data            D:D1A919    D:D1A953       3bh
+CODE               normal data            D:D1A970    D:D1BA35     10c6h
+DATA               normal data            D:D1BA36    D:D27C29     c1f4h
+TEXT               normal data            D:D27C2A    D:D27C2B        2h
+
+SEGMENTS WITHIN MODULES:
+========================
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\ARROW.C (File: arrow.obj) Version: 1:0 04/29/2018 21:42:25
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1C13E    D:D1C17B       3eh
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\BIRD.C (File: bird.obj) Version: 1:0 04/29/2018 21:42:26
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1C17C    D:D1C27D      102h
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\BIRD_45.C (File: bird_45.obj) Version: 1:0 04/29/2018 21:42:26
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1C27E    D:D1C37F      102h
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\BIRD_90.C (File: bird_90.obj) Version: 1:0 04/29/2018 21:42:26
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1C380    D:D1C481      102h
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\PAUSE.C (File: pause.obj) Version: 1:0 04/29/2018 21:42:26
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1C482    D:D1D423      fa2h
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_2ND_0.C (File: sprite_2nd_0.obj) Version: 1:0 04/29/2018 21:42:26
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1D424    D:D1DC25      802h
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_2ND_1.C (File: sprite_2nd_1.obj) Version: 1:0 04/29/2018 21:42:26
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1DC26    D:D1E427      802h
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_DITHER.C (File: sprite_dither.obj) Version: 1:0 04/29/2018 21:42:26
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1E428    D:D1E4C5       9eh
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_00.C (File: sprite_number_00.obj) Version: 1:0 04/29/2018 21:42:27
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1E4C6    D:D1E787      2c2h
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_01.C (File: sprite_number_01.obj) Version: 1:0 04/29/2018 21:42:27
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1E788    D:D1EA49      2c2h
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_02.C (File: sprite_number_02.obj) Version: 1:0 04/29/2018 21:42:27
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1EA4A    D:D1ED0B      2c2h
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_03.C (File: sprite_number_03.obj) Version: 1:0 04/29/2018 21:42:27
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1ED0C    D:D1EFCD      2c2h
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_04.C (File: sprite_number_04.obj) Version: 1:0 04/29/2018 21:42:27
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1EFCE    D:D1F28F      2c2h
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_05.C (File: sprite_number_05.obj) Version: 1:0 04/29/2018 21:42:27
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1F290    D:D1F551      2c2h
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_06.C (File: sprite_number_06.obj) Version: 1:0 04/29/2018 21:42:27
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1F552    D:D1F813      2c2h
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_07.C (File: sprite_number_07.obj) Version: 1:0 04/29/2018 21:42:28
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1F814    D:D1FAD5      2c2h
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_08.C (File: sprite_number_08.obj) Version: 1:0 04/29/2018 21:42:28
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1FAD6    D:D1FD97      2c2h
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_09.C (File: sprite_number_09.obj) Version: 1:0 04/29/2018 21:42:28
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1FD98    D:D20059      2c2h
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_SCOREBOARD.C (File: sprite_scoreboard.obj) Version: 1:0 04/29/2018 21:42:28
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D2005A    D:D24DAF     4d56h
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILES_GFX.C (File: tiles_gfx.obj) Version: 1:0 04/29/2018 21:42:29
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D24DB0    D:D24F1B      16ch
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C (File: tileset.obj) Version: 1:0 04/29/2018 21:42:29
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D24F1C    D:D27BF7     2cdch
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C (File: main.obj) Version: 1:0 04/29/2018 21:49:32
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: CODE                              D:D1A970    D:D1B9A6     1037h
+    Segment: TEXT (was STRSECT)                D:D27C2A    D:D27C2B        2h
+
+
+Module: ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\TILEMAPDATA.C (File: tilemapdata.obj) Version: 1:0 04/29/2018 21:42:25
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: DATA                              D:D1BA36    D:D1C13D      708h
+
+
+Module: ccleanup.asm (File: ccleanup.obj) Version: 1:0 12/15/2017 10:11:07
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: .cleanup                          D:D1A954    D:D1A967       14h
+
+
+Module: cstartup.asm (File: cstartup.obj) Version: 1:0 12/15/2017 10:11:07
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: .exit                             D:D1A968    D:D1A96F        8h
+    Segment: .header                           D:D1A87F    D:D1A881        3h
+    Segment: .startup                          D:D1A919    D:D1A953       3bh
+
+
+Module: fileioc_header.asm (File: fileioc_header.obj) Version: 1:0 12/15/2017 10:07:11
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: .fileioc_header                   D:D1A90F    D:D1A918        ah
+
+
+Module: frameset.src (Library: cshared.lib) Version: 1:0 12/15/2017 10:08:41
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: CODE                              D:D1BA11    D:D1BA1E        eh
+
+
+Module: frameset0.src (Library: cshared.lib) Version: 1:0 12/15/2017 10:08:04
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: CODE                              D:D1BA06    D:D1BA10        bh
+
+
+Module: gfx_Begin.src (Library: graphx.lib) Version: 1:0 12/15/2017 10:06:13
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: .graphx                           D:D1A8F3    D:D1A8F6        4h
+
+
+Module: gfx_End.src (Library: graphx.lib) Version: 1:0 12/15/2017 10:06:04
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: .graphx                           D:D1A907    D:D1A90A        4h
+
+
+Module: gfx_FillRectangle.src (Library: graphx.lib) Version: 1:0 12/15/2017 10:06:26
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: .graphx                           D:D1A8E7    D:D1A8EA        4h
+
+
+Module: gfx_PrintStringXY.src (Library: graphx.lib) Version: 1:0 12/15/2017 10:05:55
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: .graphx                           D:D1A8E3    D:D1A8E6        4h
+
+
+Module: gfx_PrintUInt.src (Library: graphx.lib) Version: 1:0 12/15/2017 10:06:18
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: .graphx                           D:D1A8EF    D:D1A8F2        4h
+
+
+Module: gfx_SetColor.src (Library: graphx.lib) Version: 1:0 12/15/2017 10:05:36
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: .graphx                           D:D1A8F7    D:D1A8FA        4h
+
+
+Module: gfx_SetDraw.src (Library: graphx.lib) Version: 1:0 12/15/2017 10:06:03
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: .graphx                           D:D1A8EB    D:D1A8EE        4h
+
+
+Module: gfx_SetMonospaceFont.src (Library: graphx.lib) Version: 1:0 12/15/2017 10:06:33
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: .graphx                           D:D1A90B    D:D1A90E        4h
+
+
+Module: gfx_SetPalette.src (Library: graphx.lib) Version: 1:0 12/15/2017 10:06:43
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: .graphx                           D:D1A8FB    D:D1A8FE        4h
+
+
+Module: gfx_SetPixel.src (Library: graphx.lib) Version: 1:0 12/15/2017 10:05:50
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: .graphx                           D:D1A8DF    D:D1A8E2        4h
+
+
+Module: gfx_SwapDraw.src (Library: graphx.lib) Version: 1:0 12/15/2017 10:06:01
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: .graphx                           D:D1A8DB    D:D1A8DE        4h
+
+
+Module: gfx_Tilemap.src (Library: graphx.lib) Version: 1:0 12/15/2017 10:05:52
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: .graphx                           D:D1A8FF    D:D1A902        4h
+
+
+Module: gfx_TransparentSprite.src (Library: graphx.lib) Version: 1:0 12/15/2017 10:06:09
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: .graphx                           D:D1A903    D:D1A906        4h
+
+
+Module: graphx_header.asm (File: graphx_header.obj) Version: 1:0 12/15/2017 10:06:44
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: .graphx_header                    D:D1A8D2    D:D1A8DA        9h
+
+
+Module: libheader.asm (File: libheader.obj) Version: 1:0 12/15/2017 10:11:08
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: .launcher                         D:D1A882    D:D1A8D1       50h
+    Segment: DATA                              D:D27BF8    D:D27C19       22h
+
+
+Module: random.src (Library: cce.lib) Version: 1:0 12/15/2017 10:07:23
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: CODE                              D:D1B9AF    D:D1BA05       57h
+    Segment: DATA                              D:D27C1A    D:D27C29       10h
+
+
+Module: srand.src (Library: cshared.lib) Version: 1:0 12/15/2017 10:09:40
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: CODE                              D:D1B9A7    D:D1B9AE        8h
+
+
+Module: srandom.src (Library: cce.lib) Version: 1:0 12/15/2017 10:07:22
+
+    Name                                        Base        Top      Size
+    --------------------------------------- ----------- ----------- ---------
+    Segment: CODE                              D:D1BA1F    D:D1BA35       17h
+
+EXTERNAL DEFINITIONS:
+=====================
+
+Symbol                             Address   Module          Segment
+-------------------------------- ----------- --------------- --------------------------------
+__len_bss                           00000000 (User Defined)
+__copy_code_to_ram                  00000000 (User Defined)
+__low_bss                           00000000 (User Defined)
+__heapbot                           00000001 (User Defined)
+__heaptop                           00D13FD6 (User Defined)
+__stack                             00D1A87E (User Defined)
+_boot_GetBootMajorVer               D:000080 tice            CODE                            
+_boot_GetHardwareVer                D:000084 tice            CODE                            
+_boot_GetBootMinorVer               D:00008C tice            CODE                            
+_boot_DebugPrintf                   D:0000B4 tice            CODE                            
+__idivs                             D:00013C idivs           CODE                            
+__idivu                             D:000140 idivu           CODE                            
+__idvrmu                            D:000144 idivu           CODE                            
+__imul_b                            D:000150 imulu           CODE                            
+__imulu                             D:000158 imulu           CODE                            
+__irems                             D:00016C irems           CODE                            
+__iremu                             D:000170 iremu           CODE                            
+__lmulu                             D:0001CC lmulu           CODE                            
+_boot_ClearVRAM                     D:000374 tice            CODE                            
+_boot_TurnOff                       D:000388 tice            CODE                            
+_boot_NewLine                       D:000390 tice            CODE                            
+_boot_Set6MHzMode                   D:00039C tice            CODE                            
+_boot_Set48MHzMode                  D:0003A0 tice            CODE                            
+_boot_Set6MHzModeI                  D:0003A4 tice            CODE                            
+_boot_Set48MHzModeI                 D:0003A8 tice            CODE                            
+_boot_GetBatteryStatus              D:0003B0 tice            CODE                            
+_boot_WaitShort                     D:0003B4 tice            CODE                            
+_boot_CheckOnPressed                D:00057C tice            CODE                            
+_boot_SetDate                       D:000598 tice            CODE                            
+_boot_GetDate                       D:0005A8 tice            CODE                            
+_boot_GetTime                       D:0005B0 tice            CODE                            
+_boot_SetTime                       D:0005B4 tice            CODE                            
+_boot_IsAfterNoon                   D:0005C8 tice            CODE                            
+_asm_MoveDown                       D:0207F4 tice            CODE                            
+_asm_MoveUp                         D:020800 tice            CODE                            
+_asm_ClrLCDFull                     D:020808 tice            CODE                            
+_asm_ClrLCD                         D:02080C tice            CODE                            
+_asm_ClrTxtShd                      D:020818 tice            CODE                            
+_asm_HomeUp                         D:020828 tice            CODE                            
+_asm_RunIndicOn                     D:020844 tice            CODE                            
+_asm_RunIndicOff                    D:020848 tice            CODE                            
+_asm_DelRes                         D:020E5C tice            CODE                            
+_asm_DisableAPD                     D:021134 tice            CODE                            
+_asm_EnableAPD                      D:021138 tice            CODE                            
+_asm_DrawStatusBar                  D:021A3C tice            CODE                            
+_os_PushErrorHandler                D:021C78 tice            CODE                            
+_os_PopErrorHandler                 D:021C7C tice            CODE                            
+_os_ThrowError                      D:021C80 tice            CODE                            
+_os_RealCopy                        D:021C84 tice            CODE                            
+_os_RealAsinRad                     D:021C88 tice            CODE                            
+_os_RealAcosRad                     D:021C8C tice            CODE                            
+_os_RealAtanRad                     D:021C90 tice            CODE                            
+_os_RealAdd                         D:021C94 tice            CODE                            
+_os_CplxSquare                      D:021C98 tice            CODE                            
+_os_RealCompare                     D:021C9C tice            CODE                            
+_os_RealCosRad                      D:021CA0 tice            CODE                            
+_os_RealRadToDeg                    D:021CA4 tice            CODE                            
+_os_RealDiv                         D:021CA8 tice            CODE                            
+_os_RealExp                         D:021CAC tice            CODE                            
+_os_RealFloor                       D:021CB0 tice            CODE                            
+_os_RealToStr                       D:021CB4 tice            CODE                            
+_os_RealFrac                        D:021CB8 tice            CODE                            
+_os_RealGcd                         D:021CBC tice            CODE                            
+_os_RealRoundInt                    D:021CC0 tice            CODE                            
+_os_RealLcm                         D:021CC4 tice            CODE                            
+_os_RealLog                         D:021CC8 tice            CODE                            
+_os_RealMax                         D:021CCC tice            CODE                            
+_os_RealMin                         D:021CD0 tice            CODE                            
+_os_RealMul                         D:021CD4 tice            CODE                            
+_os_RealNcr                         D:021CD8 tice            CODE                            
+_os_RealNeg                         D:021CDC tice            CODE                            
+_os_RealNpr                         D:021CE0 tice            CODE                            
+_os_RealPow                         D:021CE4 tice            CODE                            
+_os_RealDegToRad                    D:021CE8 tice            CODE                            
+_os_RealRandInt                     D:021CEC tice            CODE                            
+_os_RealInv                         D:021CF0 tice            CODE                            
+_os_RealMod                         D:021CF4 tice            CODE                            
+_os_RealRound                       D:021CF8 tice            CODE                            
+_os_RealSinRad                      D:021CFC tice            CODE                            
+_os_RealSqrt                        D:021D00 tice            CODE                            
+_os_RealSub                         D:021D04 tice            CODE                            
+_os_RealTanRad                      D:021D08 tice            CODE                            
+_os_StrToReal                       D:021D0C tice            CODE                            
+_os_RealInt                         D:021D10 tice            CODE                            
+_os_SetFlagBits                     D:021D14 tice            CODE                            
+_os_ResetFlagBits                   D:021D18 tice            CODE                            
+_os_TestFlagBits                    D:021D1C tice            CODE                            
+_os_SetFlagByte                     D:021D20 tice            CODE                            
+_os_GetFlagByte                     D:021D24 tice            CODE                            
+_os_GetCursorPos                    D:021D28 tice            CODE                            
+_os_PutStrFull                      D:021D2C tice            CODE                            
+_os_PutStrLine                      D:021D30 tice            CODE                            
+_os_SetCursorPos                    D:021D34 tice            CODE                            
+_os_GetKey                          D:021D38 tice            CODE                            
+_os_GetCSC                          D:021D3C tice            CODE                            
+_os_AppInit                         D:021D40 tice            CODE                            
+_os_DisableCursor                   D:021DE4 tice            CODE                            
+_os_EnableCursor                    D:021DE8 tice            CODE                            
+_os_FontDrawText                    D:021E00 tice            CODE                            
+_os_FontGetHeight                   D:021E14 tice            CODE                            
+_os_FontGetWidth                    D:021E18 tice            CODE                            
+_os_InitDrawing                     D:021E1C tice            CODE                            
+_os_SetDrawBGColor                  D:021E20 tice            CODE                            
+_os_SetDrawFGColor                  D:021E24 tice            CODE                            
+_os_FontSelect                      D:021E28 tice            CODE                            
+_os_SetTimer1                       D:021EC8 tice            CODE                            
+_os_DisableTimer1                   D:021ECC tice            CODE                            
+_os_GetSystemStats                  D:021ED4 tice            CODE                            
+_os_GetDrawBGColor                  D:021EE4 tice            CODE                            
+_os_GetDrawFGColor                  D:021EE8 tice            CODE                            
+_os_FontGetID                       D:021EEC tice            CODE                            
+_os_RealToInt24                     D:021EF4 tice            CODE                            
+_os_Int24ToReal                     D:021EF8 tice            CODE                            
+_os_ForceCmdNoChar                  D:021FA8 tice            CODE                            
+_os_GetSymTablePtr                  D:021FB0 tice            CODE                            
+_os_NextSymEntry                    D:021FB4 tice            CODE                            
+_os_ChkFindSym                      D:021FB8 tice            CODE                            
+_os_MemChk                          D:021FF0 tice            CODE                            
+_asm_ArcChk                         D:022040 tice            CODE                            
+_os_SetTimer2                       D:022080 tice            CODE                            
+_os_DisableTimer2                   D:022084 tice            CODE                            
+_os_FloatToReal                     D:022170 tice            CODE                            
+_os_RealToFloat                     D:022174 tice            CODE                            
+_os_FontDrawTransText               D:022178 tice            CODE                            
+_os_CreateAppVar                    D:022184 tice            CODE                            
+_errno                              D:D008DC cstartup        CODE                            
+_init                               D:D1A882 cstartup        .header                         
+_gfx_SwapDraw                       D:D1A8DB gfx_SwapDraw    .graphx                         
+_gfx_SetPixel                       D:D1A8DF gfx_SetPixel    .graphx                         
+_gfx_PrintStringXY                  D:D1A8E3 gfx_PrintString .graphx                         
+_gfx_FillRectangle                  D:D1A8E7 gfx_FillRectang .graphx                         
+_gfx_SetDraw                        D:D1A8EB gfx_SetDraw     .graphx                         
+_gfx_PrintUInt                      D:D1A8EF gfx_PrintUInt   .graphx                         
+_gfx_Begin                          D:D1A8F3 gfx_Begin       .graphx                         
+_gfx_SetColor                       D:D1A8F7 gfx_SetColor    .graphx                         
+_gfx_SetPalette                     D:D1A8FB gfx_SetPalette  .graphx                         
+_gfx_Tilemap                        D:D1A8FF gfx_Tilemap     .graphx                         
+_gfx_TransparentSprite              D:D1A903 gfx_Transparent .graphx                         
+_gfx_End                            D:D1A907 gfx_End         .graphx                         
+_gfx_SetMonospaceFont               D:D1A90B gfx_SetMonospac .graphx                         
+__exit                              D:D1A946 cstartup        .startup                        
+__errsp                             D:D1A946 cstartup        .startup                        
+_exit                               D:D1A96A cstartup        .exit                           
+_WriteToTilePos                     D:D1A970 MAIN            CODE                            
+_DrawDisplayBufferMask              D:D1A99D MAIN            CODE                            
+_ScreenPosDebugger                  D:D1A9DD MAIN            CODE                            
+_GetTilePos                         D:D1AA71 MAIN            CODE                            
+_WriteToVerticalStrip               D:D1AAE0 MAIN            CODE                            
+_WriteFourByFourTileAtPos           D:D1AB29 MAIN            CODE                            
+_FillPrettyVerticalStrip            D:D1AB9D MAIN            CODE                            
+_FillPrettyTilemap                  D:D1AC1C MAIN            CODE                            
+_FillPrettyTilemapAfterViewpoint    D:D1AC5B MAIN            CODE                            
+_GetPipeTypeAtPos                   D:D1AC9A MAIN            CODE                            
+_AddRawPipe                         D:D1ACCB MAIN            CODE                            
+_AddPipe                            D:D1ADB5 MAIN            CODE                            
+_CheckCollision                     D:D1AE38 MAIN            CODE                            
+_FadeDisplay                        D:D1AEB5 MAIN            CODE                            
+_FadeDisplayRedraw                  D:D1AF13 MAIN            CODE                            
+_CalculateScore                     D:D1AF41 MAIN            CODE                            
+_KillPlayer                         D:D1AFA6 MAIN            CODE                            
+_CheckIfKillShouldHappen            D:D1B2F9 MAIN            CODE                            
+_DrawLargeDigit                     D:D1B37B MAIN            CODE                            
+_PrintLargeNumber                   D:D1B4A1 MAIN            CODE                            
+_OnPause                            D:D1B527 MAIN            CODE                            
+_main                               D:D1B6A6 MAIN            CODE                            
+_srand                              D:D1B9A7 srand           CODE                            
+_random                             D:D1B9AF random          CODE                            
+__frameset0                         D:D1BA06 frameset0       CODE                            
+__frameset                          D:D1BA11 frameset        CODE                            
+_srandom                            D:D1BA1F srandom         CODE                            
+__setstate                          D:D1BA26 srandom         CODE                            
+_tilemap_map                        D:D1BA36 TILEMAPDATA     DATA                            
+_arrow_data                         D:D1C13E ARROW           DATA                            
+_bird_data                          D:D1C17C BIRD            DATA                            
+_bird_45_data                       D:D1C27E BIRD_45         DATA                            
+_bird_90_data                       D:D1C380 BIRD_90         DATA                            
+_pause_data                         D:D1C482 PAUSE           DATA                            
+_sprite_2nd_0_data                  D:D1D424 SPRITE_2ND_0    DATA                            
+_sprite_2nd_1_data                  D:D1DC26 SPRITE_2ND_1    DATA                            
+_sprite_dither_data                 D:D1E428 SPRITE_DITHER   DATA                            
+_sprite_number_00_data              D:D1E4C6 SPRITE_NUMBER_0 DATA                            
+_sprite_number_01_data              D:D1E788 SPRITE_NUMBER_0 DATA                            
+_sprite_number_02_data              D:D1EA4A SPRITE_NUMBER_0 DATA                            
+_sprite_number_03_data              D:D1ED0C SPRITE_NUMBER_0 DATA                            
+_sprite_number_04_data              D:D1EFCE SPRITE_NUMBER_0 DATA                            
+_sprite_number_05_data              D:D1F290 SPRITE_NUMBER_0 DATA                            
+_sprite_number_06_data              D:D1F552 SPRITE_NUMBER_0 DATA                            
+_sprite_number_07_data              D:D1F814 SPRITE_NUMBER_0 DATA                            
+_sprite_number_08_data              D:D1FAD6 SPRITE_NUMBER_0 DATA                            
+_sprite_number_09_data              D:D1FD98 SPRITE_NUMBER_0 DATA                            
+_sprite_scoreboard_data             D:D2005A SPRITE_SCOREBOA DATA                            
+_tiles_gfx_pal                      D:D24DB0 TILES_GFX       DATA                            
+_tileset_tile_0_data                D:D24F1C TILESET         DATA                            
+_tileset_tile_1_data                D:D2501E TILESET         DATA                            
+_tileset_tile_2_data                D:D25120 TILESET         DATA                            
+_tileset_tile_3_data                D:D25222 TILESET         DATA                            
+_tileset_tile_4_data                D:D25324 TILESET         DATA                            
+_tileset_tile_5_data                D:D25426 TILESET         DATA                            
+_tileset_tile_6_data                D:D25528 TILESET         DATA                            
+_tileset_tile_7_data                D:D2562A TILESET         DATA                            
+_tileset_tile_8_data                D:D2572C TILESET         DATA                            
+_tileset_tile_9_data                D:D2582E TILESET         DATA                            
+_tileset_tile_10_data               D:D25930 TILESET         DATA                            
+_tileset_tile_11_data               D:D25A32 TILESET         DATA                            
+_tileset_tile_12_data               D:D25B34 TILESET         DATA                            
+_tileset_tile_13_data               D:D25C36 TILESET         DATA                            
+_tileset_tile_14_data               D:D25D38 TILESET         DATA                            
+_tileset_tile_15_data               D:D25E3A TILESET         DATA                            
+_tileset_tile_16_data               D:D25F3C TILESET         DATA                            
+_tileset_tile_17_data               D:D2603E TILESET         DATA                            
+_tileset_tile_18_data               D:D26140 TILESET         DATA                            
+_tileset_tile_19_data               D:D26242 TILESET         DATA                            
+_tileset_tile_20_data               D:D26344 TILESET         DATA                            
+_tileset_tile_21_data               D:D26446 TILESET         DATA                            
+_tileset_tile_22_data               D:D26548 TILESET         DATA                            
+_tileset_tile_23_data               D:D2664A TILESET         DATA                            
+_tileset_tile_24_data               D:D2674C TILESET         DATA                            
+_tileset_tile_25_data               D:D2684E TILESET         DATA                            
+_tileset_tile_26_data               D:D26950 TILESET         DATA                            
+_tileset_tile_27_data               D:D26A52 TILESET         DATA                            
+_tileset_tile_28_data               D:D26B54 TILESET         DATA                            
+_tileset_tile_29_data               D:D26C56 TILESET         DATA                            
+_tileset_tile_30_data               D:D26D58 TILESET         DATA                            
+_tileset_tile_31_data               D:D26E5A TILESET         DATA                            
+_tileset_tile_32_data               D:D26F5C TILESET         DATA                            
+_tileset_tile_33_data               D:D2705E TILESET         DATA                            
+_tileset_tile_34_data               D:D27160 TILESET         DATA                            
+_tileset_tile_35_data               D:D27262 TILESET         DATA                            
+_tileset_tile_36_data               D:D27364 TILESET         DATA                            
+_tileset_tile_37_data               D:D27466 TILESET         DATA                            
+_tileset_tile_38_data               D:D27568 TILESET         DATA                            
+_tileset_tile_39_data               D:D2766A TILESET         DATA                            
+_tileset_tile_40_data               D:D2776C TILESET         DATA                            
+_tileset_tile_41_data               D:D2786E TILESET         DATA                            
+_tileset_tile_42_data               D:D27970 TILESET         DATA                            
+_tileset_tile_43_data               D:D27A72 TILESET         DATA                            
+_tileset_tiles_data                 D:D27B74 TILESET         DATA                            
+__state                             D:D27C1A random          DATA                            
+
+238 external symbol(s).
+
+SYMBOL CROSS REFERENCE:
+=======================
+Name                              Use         Module
+--------------------------------- ----------- -------------------------
+__len_bss                         Defined     LINKER
+                                  Referenced  cstartup.asm
+__copy_code_to_ram                Defined     LINKER
+__low_bss                         Defined     LINKER
+                                  Referenced  cstartup.asm
+__heapbot                         Defined     LINKER
+__heaptop                         Defined     LINKER
+__stack                           Defined     LINKER
+_boot_GetBootMajorVer             Defined     tice.src
+_boot_GetHardwareVer              Defined     tice.src
+_boot_GetBootMinorVer             Defined     tice.src
+_boot_DebugPrintf                 Defined     tice.src
+__idivs                           Defined     idivs.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+__idivu                           Defined     idivu.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+__idvrmu                          Defined     idivu.src
+__imul_b                          Defined     imulu.src
+__imulu                           Defined     imulu.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+__irems                           Defined     irems.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+__iremu                           Defined     iremu.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+__lmulu                           Defined     lmulu.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_boot_ClearVRAM                   Defined     tice.src
+_boot_TurnOff                     Defined     tice.src
+_boot_NewLine                     Defined     tice.src
+_boot_Set6MHzMode                 Defined     tice.src
+_boot_Set48MHzMode                Defined     tice.src
+_boot_Set6MHzModeI                Defined     tice.src
+_boot_Set48MHzModeI               Defined     tice.src
+_boot_GetBatteryStatus            Defined     tice.src
+_boot_WaitShort                   Defined     tice.src
+_boot_CheckOnPressed              Defined     tice.src
+_boot_SetDate                     Defined     tice.src
+_boot_GetDate                     Defined     tice.src
+_boot_GetTime                     Defined     tice.src
+_boot_SetTime                     Defined     tice.src
+_boot_IsAfterNoon                 Defined     tice.src
+_asm_MoveDown                     Defined     tice.src
+_asm_MoveUp                       Defined     tice.src
+_asm_ClrLCDFull                   Defined     tice.src
+_asm_ClrLCD                       Defined     tice.src
+_asm_ClrTxtShd                    Defined     tice.src
+_asm_HomeUp                       Defined     tice.src
+_asm_RunIndicOn                   Defined     tice.src
+_asm_RunIndicOff                  Defined     tice.src
+_asm_DelRes                       Defined     tice.src
+_asm_DisableAPD                   Defined     tice.src
+_asm_EnableAPD                    Defined     tice.src
+_asm_DrawStatusBar                Defined     tice.src
+_os_PushErrorHandler              Defined     tice.src
+_os_PopErrorHandler               Defined     tice.src
+_os_ThrowError                    Defined     tice.src
+_os_RealCopy                      Defined     tice.src
+_os_RealAsinRad                   Defined     tice.src
+_os_RealAcosRad                   Defined     tice.src
+_os_RealAtanRad                   Defined     tice.src
+_os_RealAdd                       Defined     tice.src
+_os_CplxSquare                    Defined     tice.src
+_os_RealCompare                   Defined     tice.src
+_os_RealCosRad                    Defined     tice.src
+_os_RealRadToDeg                  Defined     tice.src
+_os_RealDiv                       Defined     tice.src
+_os_RealExp                       Defined     tice.src
+_os_RealFloor                     Defined     tice.src
+_os_RealToStr                     Defined     tice.src
+_os_RealFrac                      Defined     tice.src
+_os_RealGcd                       Defined     tice.src
+_os_RealRoundInt                  Defined     tice.src
+_os_RealLcm                       Defined     tice.src
+_os_RealLog                       Defined     tice.src
+_os_RealMax                       Defined     tice.src
+_os_RealMin                       Defined     tice.src
+_os_RealMul                       Defined     tice.src
+_os_RealNcr                       Defined     tice.src
+_os_RealNeg                       Defined     tice.src
+_os_RealNpr                       Defined     tice.src
+_os_RealPow                       Defined     tice.src
+_os_RealDegToRad                  Defined     tice.src
+_os_RealRandInt                   Defined     tice.src
+_os_RealInv                       Defined     tice.src
+_os_RealMod                       Defined     tice.src
+_os_RealRound                     Defined     tice.src
+_os_RealSinRad                    Defined     tice.src
+_os_RealSqrt                      Defined     tice.src
+_os_RealSub                       Defined     tice.src
+_os_RealTanRad                    Defined     tice.src
+_os_StrToReal                     Defined     tice.src
+_os_RealInt                       Defined     tice.src
+_os_SetFlagBits                   Defined     tice.src
+_os_ResetFlagBits                 Defined     tice.src
+_os_TestFlagBits                  Defined     tice.src
+_os_SetFlagByte                   Defined     tice.src
+_os_GetFlagByte                   Defined     tice.src
+_os_GetCursorPos                  Defined     tice.src
+_os_PutStrFull                    Defined     tice.src
+_os_PutStrLine                    Defined     tice.src
+_os_SetCursorPos                  Defined     tice.src
+_os_GetKey                        Defined     tice.src
+_os_GetCSC                        Defined     tice.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_os_AppInit                       Defined     tice.src
+_os_DisableCursor                 Defined     tice.src
+_os_EnableCursor                  Defined     tice.src
+_os_FontDrawText                  Defined     tice.src
+_os_FontGetHeight                 Defined     tice.src
+_os_FontGetWidth                  Defined     tice.src
+_os_InitDrawing                   Defined     tice.src
+_os_SetDrawBGColor                Defined     tice.src
+_os_SetDrawFGColor                Defined     tice.src
+_os_FontSelect                    Defined     tice.src
+_os_SetTimer1                     Defined     tice.src
+_os_DisableTimer1                 Defined     tice.src
+_os_GetSystemStats                Defined     tice.src
+_os_GetDrawBGColor                Defined     tice.src
+_os_GetDrawFGColor                Defined     tice.src
+_os_FontGetID                     Defined     tice.src
+_os_RealToInt24                   Defined     tice.src
+_os_Int24ToReal                   Defined     tice.src
+_os_ForceCmdNoChar                Defined     tice.src
+_os_GetSymTablePtr                Defined     tice.src
+_os_NextSymEntry                  Defined     tice.src
+_os_ChkFindSym                    Defined     tice.src
+_os_MemChk                        Defined     tice.src
+_asm_ArcChk                       Defined     tice.src
+_os_SetTimer2                     Defined     tice.src
+_os_DisableTimer2                 Defined     tice.src
+_os_FloatToReal                   Defined     tice.src
+_os_RealToFloat                   Defined     tice.src
+_os_FontDrawTransText             Defined     tice.src
+_os_CreateAppVar                  Defined     tice.src
+_errno                            Defined     cstartup.asm
+_init                             Defined     cstartup.asm
+_gfx_SwapDraw                     Defined     gfx_SwapDraw.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_gfx_SetPixel                     Defined     gfx_SetPixel.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_gfx_PrintStringXY                Defined     gfx_PrintStringXY.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_gfx_FillRectangle                Defined     gfx_FillRectangle.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_gfx_SetDraw                      Defined     gfx_SetDraw.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_gfx_PrintUInt                    Defined     gfx_PrintUInt.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_gfx_Begin                        Defined     gfx_Begin.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_gfx_SetColor                     Defined     gfx_SetColor.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_gfx_SetPalette                   Defined     gfx_SetPalette.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_gfx_Tilemap                      Defined     gfx_Tilemap.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_gfx_TransparentSprite            Defined     gfx_TransparentSprite.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_gfx_End                          Defined     gfx_End.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_gfx_SetMonospaceFont             Defined     gfx_SetMonospaceFont.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+__exit                            Defined     cstartup.asm
+__errsp                           Defined     cstartup.asm
+_exit                             Defined     cstartup.asm
+_WriteToTilePos                   Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_DrawDisplayBufferMask            Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_ScreenPosDebugger                Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_GetTilePos                       Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_WriteToVerticalStrip             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_WriteFourByFourTileAtPos         Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_FillPrettyVerticalStrip          Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_FillPrettyTilemap                Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_FillPrettyTilemapAfterViewpoint  Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_GetPipeTypeAtPos                 Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_AddRawPipe                       Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_AddPipe                          Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_CheckCollision                   Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_FadeDisplay                      Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_FadeDisplayRedraw                Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_CalculateScore                   Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_KillPlayer                       Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_CheckIfKillShouldHappen          Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_DrawLargeDigit                   Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_PrintLargeNumber                 Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_OnPause                          Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_main                             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+                                  Referenced  cstartup.asm
+_srand                            Defined     srand.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_random                           Defined     random.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+__frameset0                       Defined     frameset0.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+__frameset                        Defined     frameset.src
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_srandom                          Defined     srandom.src
+__setstate                        Defined     srandom.src
+                                  Referenced  srand.src
+_tilemap_map                      Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\TILEMAPDATA.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_arrow_data                       Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\ARROW.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_bird_data                        Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\BIRD.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_bird_45_data                     Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\BIRD_45.C
+_bird_90_data                     Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\BIRD_90.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_pause_data                       Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\PAUSE.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_sprite_2nd_0_data                Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_2ND_0.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_sprite_2nd_1_data                Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_2ND_1.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_sprite_dither_data               Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_DITHER.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_sprite_number_00_data            Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_00.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_sprite_number_01_data            Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_01.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_sprite_number_02_data            Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_02.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_sprite_number_03_data            Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_03.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_sprite_number_04_data            Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_04.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_sprite_number_05_data            Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_05.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_sprite_number_06_data            Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_06.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_sprite_number_07_data            Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_07.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_sprite_number_08_data            Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_08.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_sprite_number_09_data            Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_NUMBER_09.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_sprite_scoreboard_data           Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\SPRITE_SCOREBOARD.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_tiles_gfx_pal                    Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILES_GFX.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+_tileset_tile_0_data              Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_1_data              Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_2_data              Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_3_data              Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_4_data              Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_5_data              Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_6_data              Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_7_data              Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_8_data              Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_9_data              Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_10_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_11_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_12_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_13_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_14_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_15_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_16_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_17_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_18_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_19_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_20_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_21_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_22_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_23_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_24_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_25_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_26_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_27_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_28_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_29_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_30_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_31_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_32_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_33_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_34_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_35_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_36_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_37_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_38_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_39_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_40_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_41_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_42_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tile_43_data             Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+_tileset_tiles_data               Defined     ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\TILESET.C
+                                  Referenced  ..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C
+__state                           Defined     random.src
+                                  Referenced  srandom.src
+
+OUTPUT CHECKSUM
+===============
+bin/PETROCK.hex      126F18
+
+
+
+END OF LINK MAP:
+================
+0 Errors
+0 Warnings

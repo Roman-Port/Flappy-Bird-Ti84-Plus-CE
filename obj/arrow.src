@@ -1,0 +1,77 @@
+; Zilog eZ80 ANSI C Compiler Release 3.4
+; -nomodsect -optspeed -noreduceopt -peephole -globalopt
+; -localcse -const=ROM 
+	FILE	"..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\GFX\ARROW.C"
+	.assume ADL=1
+	SEGMENT DATA
+_arrow_data:
+	DB	6
+	DB	10
+	DB	10
+	DB	10
+	DB	0
+	DB	0
+	DB	0
+	DB	0
+	DB	10
+	DB	10
+	DB	0
+	DB	0
+	DB	0
+	DB	0
+	DB	10
+	DB	10
+	DB	10
+	DB	10
+	DB	0
+	DB	0
+	DB	10
+	DB	10
+	DB	10
+	DB	10
+	DB	0
+	DB	0
+	DB	10
+	DB	10
+	DB	10
+	DB	10
+	DB	10
+	DB	10
+	DB	10
+	DB	10
+	DB	10
+	DB	10
+	DB	10
+	DB	10
+	DB	10
+	DB	10
+	DB	10
+	DB	10
+	DB	0
+	DB	0
+	DB	10
+	DB	10
+	DB	10
+	DB	10
+	DB	0
+	DB	0
+	DB	10
+	DB	10
+	DB	0
+	DB	0
+	DB	0
+	DB	0
+	DB	10
+	DB	10
+	DB	0
+	DB	0
+	DB	0
+	DB	0
+	XDEF _arrow_data
+;    1	// Converted using ConvPNG
+;    2	#include <stdint.h>
+;    3	#include "tiles_gfx.h"
+;    4	
+;    5	// 8 bpp image
+;    6	uint8_t arrow_data[62] = {
+	END

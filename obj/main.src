@@ -1,0 +1,2975 @@
+; Zilog eZ80 ANSI C Compiler Release 3.4
+; -nomodsect -optspeed -noreduceopt -peephole -globalopt
+; -localcse -const=ROM 
+	FILE	"..\..\..\..\..\DOCUME~1\CEDEV\MYSTUF~1\FLAPPY~1\SRC\MAIN.C"
+	.assume ADL=1
+	SEGMENT CODE
+;    1	#include <stdbool.h>
+;    2	#include <stddef.h>
+;    3	#include <stdint.h>
+;    4	#include <tice.h>
+;    5	
+;    6	#include <math.h>
+;    7	#include <stdio.h>
+;    8	#include <stdlib.h>
+;    9	#include <string.h>
+;   10	
+;   11	#include <fileioc.h>
+;   12	#include <graphx.h>
+;   13	#include <fileioc.h>
+;   14	
+;   15	
+;   16	/* Include the graphics */
+;   17	#include "gfx/tiles_gfx.h"
+;   18	
+;   19	
+;   20	/* Include the external map data */
+;   21	extern uint8_t tilemap_map[];
+;   22	
+;   23	/* Tilemap defines */
+;   24	#define TILE_WIDTH          16
+;   25	#define TILE_HEIGHT         16
+;   26	
+;   27	#define TILEMAP_WIDTH       100
+;   28	#define TILEMAP_HEIGHT      15
+;   29	
+;   30	#define TILEMAP_DRAW_WIDTH  20
+;   31	#define TILEMAP_DRAW_HEIGHT 15
+;   32	
+;   33	#define Y_OFFSET            0
+;   34	#define X_OFFSET            0
+;   35	
+;   36	#define DEFAULT_BIRD_Y      30
+;   37	#define SPACE_BETWEEN_PIPES 6
+;   38	
+;   39	
+;   40	void WriteToTilePos(unsigned int x, unsigned int y, unsigned int tileId, gfx_tilemap_t *tm) {
+_WriteToTilePos:
+	LD	HL,-3
+	CALL	__frameset
+;   41	    unsigned int pos = (y*tm->width)+x;
+	LD	IY,(IX+15)
+	LD	A,(IY+13)
+	UEXT	HL
+	LD	L,A
+	LD	BC,(IX+9)
+	CALL	__imulu
+	LD	BC,(IX+6)
+	ADD	HL,BC
+	LD	(IX+-3),HL
+;   42	    tm->map[pos]=tileId;
+	LD	A,(IX+12)
+	LD	BC,(IY+0)
+	ADD	HL,BC
+	LD	(HL),A
+;   43	}
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _WriteToTilePos ***************************
+;Name                         Addr/Register   Size   Type
+;pos                                   IX-3      3   variable
+;tm                                   IX+15      3   parameter
+;tileId                               IX+12      3   parameter
+;y                                     IX+9      3   parameter
+;x                                     IX+6      3   parameter
+
+
+; Stack Frame Size: 21 (bytes)
+;       Spill Code: 0 (instruction)
+
+
+;   44	
+;   45	void DrawDisplayBufferMask() {
+_DrawDisplayBufferMask:
+	LD	HL,-3
+	CALL	__frameset
+;   46	    unsigned int y=0;
+	LD	BC,0
+	LD	(IX+-3),BC
+;   47	    //gfx_FillRectangle(320-16, 0, 16, 240);
+;   48	    while(y<240) {
+	JR	L_1
+L_2:
+;   49	        gfx_TransparentSprite(sprite_dither, 294, y);
+	LD	BC,(IX+-3)
+	PUSH	BC
+	LD	BC,294
+	PUSH	BC
+	LD	BC,_sprite_dither_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;   50	        y+=6;
+	LD	IY,(IX+-3)
+	LEA	IY,IY+6
+	LD	(IX+-3),IY
+;   51	    }
+L_1:
+	LD	BC,240
+	LD	HL,(IX+-3)
+	OR	A,A
+	SBC	HL,BC
+	JR	C,L_2
+;   52	}
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _DrawDisplayBufferMask ***************************
+;Name                         Addr/Register   Size   Type
+;_sprite_dither_data                 IMPORT    158   variable
+;_gfx_TransparentSprite              IMPORT  -----   function
+;y                                     IX-3      3   variable
+
+
+; Stack Frame Size: 9 (bytes)
+;       Spill Code: 0 (instruction)
+
+
+;   53	
+;   54	void ScreenPosDebugger() {
+_ScreenPosDebugger:
+	LD	HL,-7
+	CALL	__frameset
+;   55	    uint32_t *lcd_Ram_i, *lcd_Ram_end = (uint32_t *) ((int) lcd_Ram + LCD_SIZE);
+;   56	    unsigned int x = 0;
+	LD	BC,0
+	LD	(IX+-3),BC
+;   57	    unsigned int y = 0;
+	LD	(IX+-6),BC
+;   58	    sk_key_t key;
+;   59	    while ((key = os_GetCSC()) != sk_Graph) {
+	JR	L_9
+L_10:
+;   60	        gfx_SetPixel(x,y);
+	LD	C,(IX+-6)
+	LD	B,0
+	PUSH	BC
+	LD	BC,(IX+-3)
+	PUSH	BC
+	CALL	_gfx_SetPixel
+	POP	BC
+	POP	BC
+;   61	        gfx_SwapDraw(); //Swap buffer
+	CALL	_gfx_SwapDraw
+;   62	        switch (key) {
+	LD	A,(IX+-7)
+	UEXT	HL
+	LD	L,A
+	LD	BC,HL	; spill
+L__4:
+	LD	DE,1
+	OR	A,A
+	SBC	HL,DE
+	JR	C,L_9
+	LD	HL,4
+	OR	A,A
+	SBC	HL,BC
+	JR	C,L_9
+	LD	HL,BC
+	ADD	HL,HL
+	ADD	HL,HL
+	OR	A,A
+	SBC	HL,BC
+	LD	BC,L__3-3
+	ADD	HL,BC
+	LD	HL,(HL)
+	JP	(HL)
+L__3:
+	DW24	L_7	
+
+	DW24	L_5	
+
+	DW24	L_4	
+
+	DW24	L_6	
+
+;   63	            case sk_Right:
+L_4:
+;   64					x+=1;
+	LD	BC,(IX+-3)
+	INC	BC
+	LD	(IX+-3),BC
+;   65	                break;
+	JR	L_9
+;   66	            case sk_Left:
+L_5:
+;   67					x-=1;
+	LD	IY,(IX+-3)
+	LEA	IY,IY+-1
+	LD	(IX+-3),IY
+;   68	                break;
+	JR	L_9
+;   69	            case sk_Up:
+L_6:
+;   70					y+=1;
+	LD	BC,(IX+-6)
+	INC	BC
+	LD	(IX+-6),BC
+;   71	                break;
+	JR	L_9
+;   72	            case sk_Down:
+L_7:
+;   73					y-=1;
+	LD	IY,(IX+-6)
+	LEA	IY,IY+-1
+	LD	(IX+-6),IY
+;   74	                break;
+;   75	            default:
+;   76	                break;
+;   77	        }
+;   78	    }
+L_9:
+	CALL	_os_GetCSC
+	LD	(IX+-7),A
+	CP	A,49
+	JR	NZ,L_10
+;   79	}
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _ScreenPosDebugger ***************************
+;Name                         Addr/Register   Size   Type
+;_os_GetCSC                          IMPORT  -----   function
+;_gfx_SwapDraw                       IMPORT  -----   function
+;_gfx_SetPixel                       IMPORT  -----   function
+;key                                   IX-7      1   variable
+;y                                     IX-6      3   variable
+;x                                     IX-3      3   variable
+
+
+; Stack Frame Size: 13 (bytes)
+;       Spill Code: -3 (instruction)
+
+
+;   80	
+;   81	int GetTilePos(unsigned int x, unsigned int y, gfx_tilemap_t *tm) {
+_GetTilePos:
+	LD	HL,-9
+	CALL	__frameset
+;   82	    unsigned int pos = (y*tm->width)+x;
+	LD	IY,(IX+12)
+	LD	D,(IY+13)
+	LD	A,D
+	UEXT	HL
+	LD	L,A
+	LD	BC,HL
+	LD	HL,(IX+9)
+	CALL	__imulu
+	LD	BC,(IX+6)
+	ADD	HL,BC
+	LD	(IX+-3),HL
+;   83	    unsigned int tileLength = tm->width*tm->height;
+	LD	A,(IY+12)
+	UEXT	HL
+	LD	L,A
+	LD	(IX+-9),HL
+	LD	A,D
+	UEXT	HL
+	LD	L,A
+	LD	BC,HL
+	LD	HL,(IX+-9)
+	CALL	__imulu
+	LD	(IX+-6),HL
+;   84	    if(pos>tileLength || pos<0) {
+	LD	BC,(IX+-3)
+	LD	HL,(IX+-6)
+	OR	A,A
+	SBC	HL,BC
+	JR	C,L_13
+	LD	BC,0
+	LD	HL,(IX+-3)
+	OR	A,A
+	SBC	HL,BC
+	JR	NC,L_14
+L_13:
+;   85	        //Out of bounds. Return 0
+;   86	        return 22;
+	LD	HL,22
+	JR	L_15
+;   87	    }
+L_14:
+;   88	    return tm->map[pos];
+	LD	BC,(IX+-3)
+	LD	IY,(IX+12)
+	LD	HL,(IY+0)
+	ADD	HL,BC
+	LD	A,(HL)
+	UEXT	HL
+	LD	L,A
+;   89	}
+L_15:
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _GetTilePos ***************************
+;Name                         Addr/Register   Size   Type
+;tileLength                            IX-6      3   variable
+;pos                                   IX-3      3   variable
+;tm                                   IX+12      3   parameter
+;y                                     IX+9      3   parameter
+;x                                     IX+6      3   parameter
+
+
+; Stack Frame Size: 24 (bytes)
+;       Spill Code: -3 (instruction)
+
+
+;   90	
+;   91	void WriteToVerticalStrip(unsigned int x, unsigned int tileId, gfx_tilemap_t *tm) {
+_WriteToVerticalStrip:
+	LD	HL,-3
+	CALL	__frameset
+;   92	    unsigned int y = 0;
+	LD	BC,0
+	LD	(IX+-3),BC
+;   93	    while(y<tm->height) {
+	JR	L_16
+L_17:
+;   94	        WriteToTilePos(x,y,tileId,tm);
+	LD	BC,(IX+12)
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,(IX+-3)
+	PUSH	BC
+	LD	BC,(IX+6)
+	PUSH	BC
+	CALL	_WriteToTilePos
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+;   95	        y+=1;
+	LD	BC,(IX+-3)
+	INC	BC
+	LD	(IX+-3),BC
+;   96	    }
+L_16:
+	LD	IY,(IX+12)
+	LD	A,(IY+12)
+	UEXT	HL
+	LD	L,A
+	LD	BC,HL
+	LD	HL,(IX+-3)
+	OR	A,A
+	SBC	HL,BC
+	JR	C,L_17
+;   97	}
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _WriteToVerticalStrip ***************************
+;Name                         Addr/Register   Size   Type
+;y                                     IX-3      3   variable
+;tm                                   IX+12      3   parameter
+;tileId                                IX+9      3   parameter
+;x                                     IX+6      3   parameter
+
+
+; Stack Frame Size: 18 (bytes)
+;       Spill Code: -3 (instruction)
+
+
+;   98	
+;   99	void WriteFourByFourTileAtPos(unsigned int x, unsigned int y, unsigned int tileId, gfx_tilemap_t *tm) {
+_WriteFourByFourTileAtPos:
+	CALL	__frameset0
+;  100	    //Revise this later.
+;  101	    unsigned int editorTile = tileId;
+;  102	
+;  103	    WriteToTilePos(x+0,y+0,editorTile+0,tm);
+	LD	BC,(IX+15)
+	PUSH	BC
+	LD	BC,(IX+12)
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,(IX+6)
+	PUSH	BC
+	CALL	_WriteToTilePos
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+;  104	    WriteToTilePos(x+1,y+0,editorTile+1,tm);
+	LD	BC,(IX+15)
+	PUSH	BC
+	LD	BC,(IX+12)
+	INC	BC
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,(IX+6)
+	INC	BC
+	PUSH	BC
+	CALL	_WriteToTilePos
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+;  105	
+;  106	    WriteToTilePos(x+0,y+1,editorTile+0+2,tm);
+	LD	BC,(IX+15)
+	PUSH	BC
+	LD	IY,(IX+12)
+	LEA	BC,IY+2
+	PUSH	BC
+	LD	BC,(IX+9)
+	INC	BC
+	PUSH	BC
+	LD	BC,(IX+6)
+	PUSH	BC
+	CALL	_WriteToTilePos
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+;  107	    WriteToTilePos(x+1,y+1,editorTile+1+2,tm);
+	LD	BC,(IX+15)
+	PUSH	BC
+	LD	IY,(IX+12)
+	LEA	BC,IY+3
+	PUSH	BC
+	LD	BC,(IX+9)
+	INC	BC
+	PUSH	BC
+	LD	BC,(IX+6)
+	INC	BC
+	PUSH	BC
+	CALL	_WriteToTilePos
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+;  108	
+;  109	}
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _WriteFourByFourTileAtPos ***************************
+;Name                         Addr/Register   Size   Type
+;tm                                   IX+15      3   parameter
+;tileId                               IX+12      3   parameter
+;y                                     IX+9      3   parameter
+;x                                     IX+6      3   parameter
+
+
+; Stack Frame Size: 18 (bytes)
+;       Spill Code: -3 (instruction)
+
+
+;  110	
+;  111	void FillPrettyVerticalStrip(gfx_tilemap_t *tm, unsigned int x) {
+_FillPrettyVerticalStrip:
+	CALL	__frameset0
+;  112	    //First, fill it with blue.
+;  113	    WriteToVerticalStrip(x,0,tm);
+	LD	BC,(IX+6)
+	PUSH	BC
+	LD	BC,0
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	CALL	_WriteToVerticalStrip
+	POP	BC
+	POP	BC
+	POP	BC
+;  114	    //Fill the bottom
+;  115	    WriteFourByFourTileAtPos(x,15-4,4,tm);
+	LD	BC,(IX+6)
+	PUSH	BC
+	LD	BC,4
+	PUSH	BC
+	LD	BC,11
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	CALL	_WriteFourByFourTileAtPos
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+;  116	    //Determine if this should be grass or a building.
+;  117	    if(x%4==0) {
+	LD	A,(IX+9)
+	AND	A,3
+	UEXT	HL
+	LD	L,A
+	OR	A,A
+	LD	BC,0
+	SBC	HL,BC
+	JR	NZ,L_21
+;  118	        //Building
+;  119	        WriteFourByFourTileAtPos(x,15-2,16,tm);
+	LD	BC,(IX+6)
+	PUSH	BC
+	LD	BC,16
+	PUSH	BC
+	LD	BC,13
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	CALL	_WriteFourByFourTileAtPos
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+;  120	    } else {
+	JR	L_22
+L_21:
+;  121	        //Grass
+;  122	        WriteFourByFourTileAtPos(x,15-2,12,tm);
+	LD	BC,(IX+6)
+	PUSH	BC
+	LD	BC,12
+	PUSH	BC
+	LD	BC,13
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	CALL	_WriteFourByFourTileAtPos
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+;  123	    }
+;  124	}
+L_22:
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _FillPrettyVerticalStrip ***************************
+;Name                         Addr/Register   Size   Type
+;x                                     IX+9      3   parameter
+;tm                                    IX+6      3   parameter
+
+
+; Stack Frame Size: 12 (bytes)
+;       Spill Code: -3 (instruction)
+
+
+;  125	
+;  126	void FillPrettyTilemap(gfx_tilemap_t *tm) {
+_FillPrettyTilemap:
+	LD	HL,-3
+	CALL	__frameset
+;  127	    unsigned int x=0;
+	LD	BC,0
+	LD	(IX+-3),BC
+;  128	    while(x<tm->width) {
+	JR	L_23
+L_24:
+;  129	        //60 above changes the width.
+;  130	        FillPrettyVerticalStrip(tm,x);
+	LD	BC,(IX+-3)
+	PUSH	BC
+	LD	BC,(IX+6)
+	PUSH	BC
+	CALL	_FillPrettyVerticalStrip
+	POP	BC
+	POP	BC
+;  131	        x+=1;
+	LD	BC,(IX+-3)
+	INC	BC
+	LD	(IX+-3),BC
+;  132	        
+;  133	    }
+L_23:
+	LD	IY,(IX+6)
+	LD	A,(IY+13)
+	UEXT	HL
+	LD	L,A
+	LD	BC,HL
+	LD	HL,(IX+-3)
+	OR	A,A
+	SBC	HL,BC
+	JR	C,L_24
+;  134	    
+;  135	}
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _FillPrettyTilemap ***************************
+;Name                         Addr/Register   Size   Type
+;x                                     IX-3      3   variable
+;tm                                    IX+6      3   parameter
+
+
+; Stack Frame Size: 12 (bytes)
+;       Spill Code: -3 (instruction)
+
+
+;  136	
+;  137	void FillPrettyTilemapAfterViewpoint(gfx_tilemap_t *tm) {
+_FillPrettyTilemapAfterViewpoint:
+	LD	HL,-3
+	CALL	__frameset
+;  138	    
+;  139	    unsigned int x=TILEMAP_DRAW_WIDTH+2+TILEMAP_DRAW_WIDTH;
+	LD	BC,42
+	LD	(IX+-3),BC
+;  140	    while(x<tm->width) {
+	JR	L_26
+L_27:
+;  141	        //60 above changes the width.
+;  142	        FillPrettyVerticalStrip(tm,x);
+	LD	BC,(IX+-3)
+	PUSH	BC
+	LD	BC,(IX+6)
+	PUSH	BC
+	CALL	_FillPrettyVerticalStrip
+	POP	BC
+	POP	BC
+;  143	        x+=1;
+	LD	BC,(IX+-3)
+	INC	BC
+	LD	(IX+-3),BC
+;  144	        
+;  145	    }
+L_26:
+	LD	IY,(IX+6)
+	LD	A,(IY+13)
+	UEXT	HL
+	LD	L,A
+	LD	BC,HL
+	LD	HL,(IX+-3)
+	OR	A,A
+	SBC	HL,BC
+	JR	C,L_27
+;  146	    
+;  147	}
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _FillPrettyTilemapAfterViewpoint ***************************
+;Name                         Addr/Register   Size   Type
+;x                                     IX-3      3   variable
+;tm                                    IX+6      3   parameter
+
+
+; Stack Frame Size: 12 (bytes)
+;       Spill Code: -3 (instruction)
+
+
+;  148	
+;  149	int GetPipeTypeAtPos(unsigned int test) {
+_GetPipeTypeAtPos:
+	CALL	__frameset0
+;  150	    if(test==1) {
+	LD	BC,1
+	LD	HL,(IX+6)
+	OR	A,A
+	SBC	HL,BC
+	JR	NZ,L_31
+;  151	        //Bottom grass
+;  152	        return 24;
+	LD	HL,24
+	JR	L_33
+;  153	    }
+L_31:
+;  154	    if(test==2) {
+	LD	BC,2
+	LD	HL,(IX+6)
+	OR	A,A
+	SBC	HL,BC
+	JR	NZ,L_32
+;  155	        //Clound endings
+;  156	        return 32;
+	LD	HL,32
+	JR	L_33
+;  157	    }
+L_32:
+;  158	    //Default sky
+;  159	    return 36;
+	LD	HL,36
+;  160	}
+L_33:
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _GetPipeTypeAtPos ***************************
+;Name                         Addr/Register   Size   Type
+;test                                  IX+6      3   parameter
+
+
+; Stack Frame Size: 9 (bytes)
+;       Spill Code: -3 (instruction)
+
+
+;  161	
+;  162	void AddRawPipe(unsigned int x,gfx_tilemap_t *tm, unsigned int bottomHeight, unsigned int topHeight) {
+_AddRawPipe:
+	LD	HL,-6
+	CALL	__frameset
+;  163	    //Draw bottom pipe.
+;  164	    unsigned int i = 1;
+	LD	BC,1
+	LD	(IX+-3),BC
+;  165	    //Clear out this area first.
+;  166	    FillPrettyVerticalStrip(tm,x);
+	LD	BC,(IX+6)
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	CALL	_FillPrettyVerticalStrip
+	POP	BC
+	POP	BC
+;  167	    while(i<bottomHeight) {
+	JR	L_34
+L_35:
+;  168	        int tileId = GetPipeTypeAtPos(i); //Get the tile type for correct background rendering.
+	LD	BC,(IX+-3)
+	PUSH	BC
+	CALL	_GetPipeTypeAtPos
+	POP	BC
+	LD	(IX+-6),HL
+;  169	        WriteFourByFourTileAtPos(x,(tm->height)-(2*i),tileId,tm);
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,(IX+-6)
+	PUSH	BC
+	LD	IY,(IX+9)
+	LD	A,(IY+12)
+	UEXT	HL
+	LD	L,A
+	LD	BC,HL
+	LD	HL,(IX+-3)
+	ADD	HL,HL
+	LD	DE,HL
+	LD	HL,BC
+	OR	A,A
+	SBC	HL,DE
+	PUSH	HL
+	LD	BC,(IX+6)
+	PUSH	BC
+	CALL	_WriteFourByFourTileAtPos
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+;  170	        i+=1;
+	LD	BC,(IX+-3)
+	INC	BC
+	LD	(IX+-3),BC
+;  171	    }
+L_34:
+	LD	BC,(IX+12)
+	LD	HL,(IX+-3)
+	OR	A,A
+	SBC	HL,BC
+	JR	C,L_35
+;  172	    WriteFourByFourTileAtPos(x,(tm->height)-(2*i),20,tm); //Draw cap
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,20
+	PUSH	BC
+	LD	IY,(IX+9)
+	LD	A,(IY+12)
+	UEXT	HL
+	LD	L,A
+	LD	BC,HL
+	LD	HL,(IX+-3)
+	ADD	HL,HL
+	LD	DE,HL
+	LD	HL,BC
+	OR	A,A
+	SBC	HL,DE
+	PUSH	HL
+	LD	BC,(IX+6)
+	PUSH	BC
+	CALL	_WriteFourByFourTileAtPos
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+;  173	
+;  174	    //Draw top pipe. This one is easier because the background is always the same.
+;  175	    i=0;
+	LD	BC,0
+	LD	(IX+-3),BC
+;  176	    while(i<topHeight) {
+	JR	L_37
+L_38:
+;  177	        WriteFourByFourTileAtPos(x,2*i,36,tm);
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,36
+	PUSH	BC
+	LD	HL,(IX+-3)
+	ADD	HL,HL
+	PUSH	HL
+	LD	BC,(IX+6)
+	PUSH	BC
+	CALL	_WriteFourByFourTileAtPos
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+;  178	        i+=1;
+	LD	BC,(IX+-3)
+	INC	BC
+	LD	(IX+-3),BC
+;  179	    }
+L_37:
+	LD	BC,(IX+15)
+	LD	HL,(IX+-3)
+	OR	A,A
+	SBC	HL,BC
+	JR	C,L_38
+;  180	    WriteFourByFourTileAtPos(x,2*i,40,tm); //Draw cap
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,40
+	PUSH	BC
+	LD	HL,(IX+-3)
+	ADD	HL,HL
+	PUSH	HL
+	LD	BC,(IX+6)
+	PUSH	BC
+	CALL	_WriteFourByFourTileAtPos
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+;  181	    
+;  182	}
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _AddRawPipe ***************************
+;Name                         Addr/Register   Size   Type
+;tileId                                IX-6      3   variable
+;i                                     IX-3      3   variable
+;topHeight                            IX+15      3   parameter
+;bottomHeight                         IX+12      3   parameter
+;tm                                    IX+9      3   parameter
+;x                                     IX+6      3   parameter
+
+
+; Stack Frame Size: 24 (bytes)
+;       Spill Code: -3 (instruction)
+
+
+;  183	
+;  184	void AddPipe(unsigned int x,gfx_tilemap_t *tm) {
+_AddPipe:
+	LD	HL,-9
+	CALL	__frameset
+;  185	    //Randomize.
+;  186	    unsigned int range = tm->height-4-4-3;
+	LD	IY,(IX+9)
+	LD	A,(IY+12)
+	UEXT	HL
+	LD	L,A
+	LD	IY,HL
+	LEA	IY,IY+-11
+	LD	(IX+-6),IY
+;  187	    unsigned int bottomHeight = randInt(3,range);
+	CALL	_random
+	LD	IY,(IX+-6)
+	LEA	BC,IY+-2
+	CALL	__iremu
+	LD	IY,HL
+	LEA	IY,IY+3
+	LD	(IX+-3),IY
+;  188	    //unsigned int bottomHeight = tm->height-topHeight-3-4;
+;  189	    unsigned int topHeight = 2 + (range-bottomHeight);
+	LD	BC,IY
+	LD	HL,(IX+-6)
+	OR	A,A
+	SBC	HL,BC
+	INC	HL
+	INC	HL
+	LD	(IX+-9),HL
+;  190	    AddRawPipe(x,tm,bottomHeight,topHeight);
+	LD	BC,HL
+	PUSH	BC
+	LD	BC,(IX+-3)
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,(IX+6)
+	PUSH	BC
+	CALL	_AddRawPipe
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+;  191	    //If this is nearing the edge, place the same pipe on the beginning.
+;  192	    if(x>30) {
+	LD	BC,(IX+6)
+	LD	HL,30
+	OR	A,A
+	SBC	HL,BC
+	JR	NC,L_42
+;  193	        AddRawPipe(x-30,tm,bottomHeight,topHeight);
+	LD	BC,(IX+-9)
+	PUSH	BC
+	LD	BC,(IX+-3)
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	IY,(IX+6)
+	LEA	BC,IY+-30
+	PUSH	BC
+	CALL	_AddRawPipe
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+;  194	    }
+;  195	}
+L_42:
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _AddPipe ***************************
+;Name                         Addr/Register   Size   Type
+;_random                             IMPORT  -----   function
+;topHeight                             IX-9      3   variable
+;range                                 IX-6      3   variable
+;bottomHeight                          IX-3      3   variable
+;tm                                    IX+9      3   parameter
+;x                                     IX+6      3   parameter
+
+
+; Stack Frame Size: 21 (bytes)
+;       Spill Code: -3 (instruction)
+
+
+;  196	
+;  197	bool CheckCollision(signed int posX, signed int posYScreen,unsigned int posYOffset, gfx_tilemap_t *tilemap) {
+_CheckCollision:
+	LD	HL,-6
+	CALL	__frameset
+;  198	    int tileId;
+;  199	    tileId=GetTilePos((posX/16)+3, (posYScreen/16)+posYOffset, tilemap);
+	LD	BC,16
+	LD	DE,(IX+15)
+	PUSH	DE
+	LD	HL,(IX+9)
+	CALL	__idivs
+	LD	BC,16
+	LD	DE,(IX+12)
+	ADD	HL,DE
+	PUSH	HL
+	LD	HL,(IX+6)
+	CALL	__idivs
+	LD	IY,HL
+	LEA	BC,IY+3
+	PUSH	BC
+	CALL	_GetTilePos
+	POP	BC
+	POP	BC
+	POP	BC
+	LD	(IX+-6),HL
+;  200	    //Check this against the blacklist.
+;  201	    return (tileId>=22 && tileId <= 41);
+	LD	BC,22
+	OR	A,A
+	SBC	HL,BC
+	JP	M,L__31
+	JP	PE,L_45
+	JR	L__32
+L__31:
+	JP	PO,L_45
+L__32:
+	LD	BC,(IX+-6)
+	LD	HL,41
+	OR	A,A
+	SBC	HL,BC
+	JP	M,L__33
+	JP	PE,L_45
+	JR	L__34
+L__33:
+	JP	PO,L_45
+L__34:
+;  202	}
+	LD	BC,1
+	LD	(IX+-3),BC
+	JR	L_46
+L_45:
+	LD	BC,0
+	LD	(IX+-3),BC
+L_46:
+	LD	A,(IX+-3)
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _CheckCollision ***************************
+;Name                         Addr/Register   Size   Type
+;tileId                                IX-6      3   variable
+;temp47                                IX-3      3   variable
+;tilemap                              IX+15      3   parameter
+;posYOffset                           IX+12      3   parameter
+;posYScreen                            IX+9      3   parameter
+;posX                                  IX+6      3   parameter
+
+
+; Stack Frame Size: 24 (bytes)
+;       Spill Code: -3 (instruction)
+
+
+;  203	
+;  204	void FadeDisplay(signed int fadeLevel) {
+_FadeDisplay:
+	LD	HL,-6
+	CALL	__frameset
+;  205	    //Loop through the screen and set every other pixel or every third pixel.
+;  206	    //This isn't a true fade, but it should be fast and easy.
+;  207	    unsigned int posX=0;
+	LD	BC,0
+	LD	(IX+-3),BC
+;  208	    unsigned int posY=0;
+	LD	(IX+-6),BC
+;  209	    while(posY<240) {
+	JR	L_50
+L_51:
+;  210	        gfx_SetPixel(posX,posY);
+	LD	C,(IX+-6)
+	LD	B,0
+	PUSH	BC
+	LD	BC,(IX+-3)
+	PUSH	BC
+	CALL	_gfx_SetPixel
+	POP	BC
+	POP	BC
+;  211	        posX+=fadeLevel;
+	LD	BC,(IX+-3)
+	LD	HL,(IX+6)
+	ADD	HL,BC
+	LD	(IX+-3),HL
+;  212	        if(posX>320) {
+	LD	BC,HL
+	LD	HL,320
+	OR	A,A
+	SBC	HL,BC
+	JR	NC,L_50
+;  213	            //Reset X and add to Y;
+;  214	            posX = posY%fadeLevel;
+	LD	HL,(IX+-6)
+	LD	BC,(IX+6)
+	CALL	__iremu
+	LD	(IX+-3),HL
+;  215	            posY+=1;
+	LD	BC,(IX+-6)
+	INC	BC
+	LD	(IX+-6),BC
+;  216	        }
+;  217	    }
+L_50:
+	LD	BC,240
+	LD	HL,(IX+-6)
+	OR	A,A
+	SBC	HL,BC
+	JR	C,L_51
+;  218	}
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _FadeDisplay ***************************
+;Name                         Addr/Register   Size   Type
+;_gfx_SetPixel                       IMPORT  -----   function
+;posY                                  IX-6      3   variable
+;posX                                  IX-3      3   variable
+;fadeLevel                             IX+6      3   parameter
+
+
+; Stack Frame Size: 15 (bytes)
+;       Spill Code: -3 (instruction)
+
+
+;  219	
+;  220	void FadeDisplayRedraw(signed int flashLevel, signed int posX, gfx_tilemap_t *tilemap) {
+_FadeDisplayRedraw:
+	CALL	__frameset0
+;  221	    //Redraw background.
+;  222	    gfx_Tilemap(tilemap, posX, 0);
+	LD	BC,0
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,(IX+12)
+	PUSH	BC
+	CALL	_gfx_Tilemap
+	POP	BC
+	POP	BC
+	POP	BC
+;  223	    //Do fade and fade logic
+;  224	    FadeDisplay(flashLevel);
+	LD	BC,(IX+6)
+	PUSH	BC
+	CALL	_FadeDisplay
+	POP	BC
+;  225	    //Set right bit
+;  226	    DrawDisplayBufferMask();
+	CALL	_DrawDisplayBufferMask
+;  227	    //Flush buffer
+;  228	    gfx_SwapDraw();
+	CALL	_gfx_SwapDraw
+;  229	}
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _FadeDisplayRedraw ***************************
+;Name                         Addr/Register   Size   Type
+;_gfx_SwapDraw                       IMPORT  -----   function
+;_gfx_Tilemap                        IMPORT  -----   function
+;tilemap                              IX+12      3   parameter
+;posX                                  IX+9      3   parameter
+;flashLevel                            IX+6      3   parameter
+
+
+; Stack Frame Size: 15 (bytes)
+;       Spill Code: -3 (instruction)
+
+
+;  230	
+;  231	int CalculateScore(signed int posX, signed int loopCount) {
+_CalculateScore:
+	LD	HL,-12
+	CALL	__frameset
+;  232	    signed int tile = posX/16;
+	LD	BC,16
+	LD	HL,(IX+6)
+	CALL	__idivs
+	LD	(IX+-6),HL
+;  233	    signed int score = ((tile-10)/SPACE_BETWEEN_PIPES)+((20/SPACE_BETWEEN_PIPES)*2*loopCount)-1; //The 5 here is how many points per wrap there is. This might have to be changed.
+	LD	IY,(IX+-6)
+	LEA	HL,IY+-10
+	LD	BC,6
+	CALL	__idivs
+	LD	(IX+-12),HL	; spill
+	LD	HL,(IX+9)
+	LD	DE,(IX+9)
+;  234	    if(score<0) {
+	LD	BC,0
+	ADD	HL,HL
+	ADD	HL,HL
+	OR	A,A
+	SBC	HL,DE
+	ADD	HL,HL
+	LD	(IX+-9),BC	; spill
+	LD	BC,(IX+-12)	; unspill
+	ADD	HL,BC
+	LD	BC,(IX+-9)	; unspill
+	DEC	HL
+	OR	A,A
+	LD	(IX+-3),HL
+	SBC	HL,BC
+	JP	P,L__41
+	JP	PE,L_55
+	JR	L__42
+L__41:
+	JP	PO,L_55
+L__42:
+;  235	        score=0;
+	LD	BC,0
+	LD	(IX+-3),BC
+;  236	    }
+L_55:
+;  237	    return score;
+	LD	HL,(IX+-3)
+;  238	}
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _CalculateScore ***************************
+;Name                         Addr/Register   Size   Type
+;tile                                  IX-6      3   variable
+;score                                 IX-3      3   variable
+;loopCount                             IX+9      3   parameter
+;posX                                  IX+6      3   parameter
+
+
+; Stack Frame Size: 24 (bytes)
+;       Spill Code: -3 (instruction)
+
+
+;  239	
+;  240	void KillPlayer(signed int *posX, signed int *posYScreen, signed int *lastPipeLocation, signed int *posY,unsigned int score, unsigned int *loopCountMain, signed int *velocityMain,gfx_tilemap_t *tilemap) {
+_KillPlayer:
+	LD	HL,-19
+	CALL	__frameset
+;  241	    //Player was killed. Play some animation or something.
+;  242	    sk_key_t key;
+;  243	    //while ((key = os_GetCSC()) != sk_Graph);
+;  244	    signed int posXInt = *posX;
+	LD	HL,(IX+6)
+	LD	BC,(HL)
+	LD	(IX+-12),BC
+;  245	    signed int posYInt = *posYScreen*80;
+	LD	IY,(IX+9)
+	LD	HL,(IY)
+	LD	BC,(IY)
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,BC
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	LD	(IX+-3),HL
+;  246	    signed int velocity = 0;
+	LD	BC,0
+	LD	(IX+-6),BC
+;  247	    signed int animationFrame=0;
+	LD	(IX+-9),BC
+;  248	    //Play screen flash.
+;  249	    //FadeDisplay(4);
+;  250	    //Flush buffer
+;  251	    gfx_SwapDraw();
+	CALL	_gfx_SwapDraw
+;  252	    //Animate the bird falling
+;  253	    while(posYInt/80<300) {
+	JR	L_57
+L_58:
+;  254	        signed int posScreen = (posYInt/80);
+;  255	        velocity+=60;
+	LD	IY,(IX+-6)
+	LEA	IY,IY+60
+	LD	(IX+-6),IY
+;  256	        posYInt+=velocity;
+	LD	BC,IY
+	LD	HL,(IX+-3)
+	ADD	HL,BC
+	LD	(IX+-3),HL
+;  257	        //Draw tilemap and bird.
+;  258	        gfx_Tilemap(tilemap, posXInt, 0);
+	LD	BC,0
+	PUSH	BC
+	LD	BC,(IX+-12)
+	PUSH	BC
+	LD	BC,(IX+27)
+	PUSH	BC
+	CALL	_gfx_Tilemap
+	POP	BC
+	POP	BC
+	POP	BC
+;  259	        DrawDisplayBufferMask();
+	CALL	_DrawDisplayBufferMask
+;  260	        gfx_TransparentSprite(bird_90, 42, posScreen);
+	LD	BC,(IX+-19)
+	PUSH	BC
+	LD	BC,42
+	PUSH	BC
+	LD	BC,_bird_90_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  261	        
+;  262	        //Flush buffer
+;  263	        gfx_SwapDraw();
+	CALL	_gfx_SwapDraw
+;  264	    }
+L_57:
+	LD	BC,80
+	LD	HL,(IX+-3)
+	CALL	__idivs
+	LD	(IX+-19),HL
+	LD	BC,300
+	OR	A,A
+	SBC	HL,BC
+	JP	M,L__54
+	JP	PE,L_58
+	JR	L__55
+L__54:
+	JP	PO,L_58
+L__55:
+;  265	    //Show the menu now.
+;  266	    //Reset the velocity.
+;  267	    velocity=0;
+	LD	BC,0
+	LD	(IX+-6),BC
+;  268	    while(true) {
+L_65:
+;  269	        signed int posScreen = (posYInt/110);
+	LD	BC,110
+	LD	HL,(IX+-3)
+	CALL	__idivs
+	LD	(IX+-16),HL
+;  270	        velocity-=190;
+	LD	HL,(IX+-6)
+	LD	BC,16777026
+	ADD	HL,BC
+	LD	(IX+-6),HL
+;  271	        posYInt+=velocity;
+	LD	BC,(IX+-3)
+	ADD	HL,BC
+	LD	(IX+-3),HL
+;  272	        if(posYInt/80<=40) {
+	LD	BC,80
+	CALL	__idivs
+	LD	BC,HL
+	LD	HL,40
+	OR	A,A
+	SBC	HL,BC
+	JP	P,L__56
+	JP	PE,L_70
+	JR	L__57
+L__56:
+	JP	PO,L_70
+L__57:
+;  273	            posYInt=40*80;
+;  274	            break;
+;  275	        }
+;  276	        //Draw tilemap and scoreboard
+;  277	        gfx_Tilemap(tilemap, posXInt, 0);
+	LD	BC,0
+	PUSH	BC
+	LD	BC,(IX+-12)
+	PUSH	BC
+	LD	BC,(IX+27)
+	PUSH	BC
+	CALL	_gfx_Tilemap
+	POP	BC
+	POP	BC
+	POP	BC
+;  278	        DrawDisplayBufferMask();
+	CALL	_DrawDisplayBufferMask
+;  279	        gfx_TransparentSprite(sprite_scoreboard, 54, posScreen);
+	LD	BC,(IX+-16)
+	PUSH	BC
+	LD	BC,54
+	PUSH	BC
+	LD	BC,_sprite_scoreboard_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  280	        if(posScreen+40<240) {
+	LD	IY,(IX+-16)
+	LEA	HL,IY+40
+	LD	BC,240
+	OR	A,A
+	SBC	HL,BC
+	JP	P,L__58
+	JP	PE,L_63
+	JR	L__59
+L__58:
+	JP	PO,L_63
+L__59:
+;  281	            gfx_PrintStringXY("",74,posScreen+50); //Pritn score
+	LD	IY,(IX+-16)
+	LEA	BC,IY+50
+	PUSH	BC
+	LD	BC,74
+	PUSH	BC
+	LD	BC,L__47
+	PUSH	BC
+	CALL	_gfx_PrintStringXY
+	POP	BC
+	POP	BC
+	POP	BC
+;  282	            gfx_PrintUInt(score, 3);
+	LD	BC,3
+	PUSH	BC
+	LD	BC,(IX+18)
+	PUSH	BC
+	CALL	_gfx_PrintUInt
+	POP	BC
+	POP	BC
+;  283	        }
+L_63:
+;  284	        //Flush buffer
+;  285	        gfx_SwapDraw();
+	CALL	_gfx_SwapDraw
+	JR	L_65
+;  286	    }
+;  287	
+;  288	    //Flash the 2nd key icon.
+;  289	    while ((key = os_GetCSC()) != sk_2nd) {
+L_71:
+;  290	        signed int posScreen = (posYInt/110);
+;  291	        //Draw tilemap and key
+;  292	        gfx_Tilemap(tilemap, posXInt, 0);
+	LD	BC,0
+	PUSH	BC
+	LD	BC,(IX+-12)
+	PUSH	BC
+	LD	BC,(IX+27)
+	PUSH	BC
+	CALL	_gfx_Tilemap
+	POP	BC
+	POP	BC
+	POP	BC
+;  293	        DrawDisplayBufferMask();
+	CALL	_DrawDisplayBufferMask
+;  294	        gfx_TransparentSprite(sprite_scoreboard, 54, posScreen);
+	LD	BC,29
+	PUSH	BC
+	LD	BC,54
+	PUSH	BC
+	LD	BC,_sprite_scoreboard_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  295	
+;  296	        gfx_PrintStringXY("",74,posScreen+50); //Print score
+	LD	BC,79
+	PUSH	BC
+	LD	BC,74
+	PUSH	BC
+	LD	BC,L__48
+	PUSH	BC
+	CALL	_gfx_PrintStringXY
+	POP	BC
+	POP	BC
+	POP	BC
+;  297	        gfx_PrintUInt(score, 3);
+	LD	BC,3
+	PUSH	BC
+	LD	BC,(IX+18)
+	PUSH	BC
+	CALL	_gfx_PrintUInt
+	POP	BC
+	POP	BC
+;  298	
+;  299	        if(animationFrame>10) {
+	LD	BC,(IX+-9)
+	LD	HL,10
+	OR	A,A
+	SBC	HL,BC
+	JP	P,L__60
+	JP	PE,L_67
+	JR	L__61
+L__60:
+	JP	PO,L_67
+L__61:
+;  300	            gfx_TransparentSprite(sprite_2nd_1, 128, 176);
+	LD	BC,176
+	PUSH	BC
+	LD	BC,128
+	PUSH	BC
+	LD	BC,_sprite_2nd_1_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  301	        } else {
+	JR	L_68
+L_67:
+;  302	            gfx_TransparentSprite(sprite_2nd_0, 128, 176);
+	LD	BC,176
+	PUSH	BC
+	LD	BC,128
+	PUSH	BC
+	LD	BC,_sprite_2nd_0_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  303	        }
+L_68:
+;  304	        //Flush buffer
+;  305	        gfx_SwapDraw();
+	CALL	_gfx_SwapDraw
+;  306	        animationFrame+=1;
+	LD	BC,(IX+-9)
+	INC	BC
+	LD	(IX+-9),BC
+;  307	        if(animationFrame>20) {
+	OR	A,A
+	LD	HL,20
+	SBC	HL,BC
+	JP	P,L__62
+	JP	PE,L_70
+	JR	L__63
+L__62:
+	JP	PO,L_70
+L__63:
+;  308	            animationFrame=0;
+	LD	BC,0
+	LD	(IX+-9),BC
+;  309	        }
+;  310	    }
+L_70:
+	CALL	_os_GetCSC
+	LD	(IX+-13),A
+	CP	A,54
+	JR	NZ,L_71
+;  311	
+;  312	    //Play a nice animation.
+;  313	    velocity=0;
+	LD	BC,0
+	LD	(IX+-6),BC
+;  314	    posYInt=0;
+	LD	(IX+-3),BC
+;  315	    while(posYInt<480) {
+	JR	L_74
+L_75:
+;  316	        velocity+=1;
+	LD	BC,(IX+-6)
+	INC	BC
+	LD	(IX+-6),BC
+;  317	        posYInt+=velocity;
+	LD	HL,(IX+-3)
+	ADD	HL,BC
+	LD	(IX+-3),HL
+;  318	        gfx_SetColor(0x00);
+	LD	BC,0
+	PUSH	BC
+	CALL	_gfx_SetColor
+	POP	BC
+;  319	        gfx_FillRectangle(0, 240-(posYInt/2), 320, posYInt/2);
+	LD	HL,(IX+-3)
+	LD	BC,2
+	CALL	__idivs
+	LD	BC,HL
+	LD	DE,BC
+	PUSH	DE
+	LD	HL,240
+	LD	DE,320
+	PUSH	DE
+	OR	A,A
+	SBC	HL,BC
+	PUSH	HL
+	LD	BC,0
+	PUSH	BC
+	CALL	_gfx_FillRectangle
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+;  320	        //Flush buffer
+;  321	        gfx_SwapDraw();
+	CALL	_gfx_SwapDraw
+;  322	    }
+L_74:
+	LD	BC,480
+	LD	HL,(IX+-3)
+	OR	A,A
+	SBC	HL,BC
+	JP	M,L__64
+	JP	PE,L_75
+	JR	L__65
+L__64:
+	JP	PO,L_75
+L__65:
+;  323	    //Clean up and get ready to reset.
+;  324	    FillPrettyTilemap(tilemap);
+	LD	BC,(IX+27)
+	PUSH	BC
+	CALL	_FillPrettyTilemap
+	POP	BC
+;  325	    *posX=0;
+	LD	HL,(IX+6)
+	LD	BC,0
+	LD	(HL),BC
+;  326	    *posY = DEFAULT_BIRD_Y*80;
+	LD	HL,(IX+15)
+	LD	BC,2400
+	LD	(HL),BC
+;  327	    *posYScreen = DEFAULT_BIRD_Y;
+	LD	HL,(IX+9)
+	LD	BC,30
+	LD	(HL),BC
+;  328	    *lastPipeLocation = 0;
+	LD	HL,(IX+12)
+	LD	BC,0
+	LD	(HL),BC
+;  329	    *loopCountMain = 0;
+	LD	HL,(IX+21)
+	LD	(HL),BC
+;  330	    *velocityMain=0;
+	LD	HL,(IX+24)
+	LD	(HL),BC
+;  331	    //Play a nice animation out
+;  332	    velocity=0;
+	LD	(IX+-6),BC
+;  333	    while(posYInt>0) {
+	JR	L_77
+L_78:
+;  334	        velocity+=2;
+	LD	IY,(IX+-6)
+	LEA	IY,IY+2
+	LD	(IX+-6),IY
+;  335	        posYInt-=velocity;
+	LD	BC,IY
+	LD	HL,(IX+-3)
+	OR	A,A
+	SBC	HL,BC
+	LD	(IX+-3),HL
+;  336	        gfx_SetColor(0x00);
+	LD	BC,0
+	PUSH	BC
+	CALL	_gfx_SetColor
+	POP	BC
+;  337	        //Draw
+;  338	        gfx_Tilemap(tilemap, 0, 0);
+	LD	BC,0
+	PUSH	BC
+	PUSH	BC
+	LD	BC,(IX+27)
+	PUSH	BC
+	CALL	_gfx_Tilemap
+	POP	BC
+	POP	BC
+	POP	BC
+;  339	        gfx_TransparentSprite(bird, 42, DEFAULT_BIRD_Y);
+	LD	BC,30
+	PUSH	BC
+	LD	BC,42
+	PUSH	BC
+	LD	BC,_bird_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  340	        DrawDisplayBufferMask();
+	CALL	_DrawDisplayBufferMask
+;  341	        //Draw cover
+;  342	        gfx_FillRectangle(0, 0, 320, posYInt/2);
+	LD	BC,2
+	LD	HL,(IX+-3)
+	CALL	__idivs
+	PUSH	HL
+	LD	BC,320
+	PUSH	BC
+	LD	BC,0
+	PUSH	BC
+	PUSH	BC
+	CALL	_gfx_FillRectangle
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+;  343	        //Flush buffer
+;  344	        gfx_SwapDraw();
+	CALL	_gfx_SwapDraw
+;  345	    }
+L_77:
+	LD	BC,(IX+-3)
+	OR	A,A
+	SBC	HL,HL
+	OR	A,A
+	SBC	HL,BC
+	JP	M,L__66
+	JP	PE,L_78
+	JR	L__67
+L__66:
+	JP	PO,L_78
+L__67:
+;  346	}
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _KillPlayer ***************************
+;Name                         Addr/Register   Size   Type
+;_bird_data                          IMPORT    258   variable
+;_gfx_FillRectangle                  IMPORT  -----   function
+;_gfx_SetColor                       IMPORT  -----   function
+;_os_GetCSC                          IMPORT  -----   function
+;_sprite_2nd_0_data                  IMPORT   2050   variable
+;_sprite_2nd_1_data                  IMPORT   2050   variable
+;_gfx_PrintUInt                      IMPORT  -----   function
+;_gfx_PrintStringXY                  IMPORT  -----   function
+;_sprite_scoreboard_data             IMPORT  19798   variable
+;_bird_90_data                       IMPORT    258   variable
+;_gfx_TransparentSprite              IMPORT  -----   function
+;_gfx_Tilemap                        IMPORT  -----   function
+;_gfx_SwapDraw                       IMPORT  -----   function
+;G_0                                  IX-19      3   variable
+;posScreen                            IX-16      3   variable
+;key                                  IX-13      1   variable
+;posXInt                              IX-12      3   variable
+;animationFrame                        IX-9      3   variable
+;velocity                              IX-6      3   variable
+;posYInt                               IX-3      3   variable
+;tilemap                              IX+27      3   parameter
+;velocityMain                         IX+24      3   parameter
+;loopCountMain                        IX+21      3   parameter
+;score                                IX+18      3   parameter
+;posY                                 IX+15      3   parameter
+;lastPipeLocation                     IX+12      3   parameter
+;posYScreen                            IX+9      3   parameter
+;posX                                  IX+6      3   parameter
+
+
+; Stack Frame Size: 49 (bytes)
+;       Spill Code: -3 (instruction)
+
+
+	SEGMENT STRSECT
+L__47:
+	DB	0
+L__48:
+	DB	0
+	SEGMENT CODE
+;  347	
+;  348	void CheckIfKillShouldHappen(signed int *posX, signed int *posYScreen, signed int *lastPipeLocation, signed int *posY, unsigned int score, unsigned int *loopCount, signed int *velocity,gfx_tilemap_t *tilemap) {
+_CheckIfKillShouldHappen:
+	LD	HL,-6
+	CALL	__frameset
+;  349	    //First, depointerize this.
+;  350	    signed int posXInt;
+;  351	    signed int posYInt;
+;  352	    posXInt = *posX;
+	LD	HL,(IX+6)
+	LD	BC,(HL)
+	LD	(IX+-3),BC
+;  353	    posYInt = *posYScreen;
+	LD	HL,(IX+9)
+	LD	BC,(HL)
+	LD	(IX+-6),BC
+;  354	    //If the player hits a pipe, kill them and play the animation.
+;  355	    if(CheckCollision(posXInt,posYInt,0,tilemap) || CheckCollision(posXInt,posYInt,1,tilemap)) {
+	LD	BC,(IX+27)
+	PUSH	BC
+	LD	BC,0
+	PUSH	BC
+	LD	BC,(IX+-6)
+	PUSH	BC
+	LD	BC,(IX+-3)
+	PUSH	BC
+	CALL	_CheckCollision
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+	OR	A,A
+	JR	NZ,L_81
+	LD	BC,(IX+27)
+	PUSH	BC
+	LD	BC,1
+	PUSH	BC
+	LD	BC,(IX+-6)
+	PUSH	BC
+	LD	BC,(IX+-3)
+	PUSH	BC
+	CALL	_CheckCollision
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+	OR	A,A
+	JR	Z,L_82
+L_81:
+;  356	        //Killed!
+;  357	        KillPlayer(posX,posYScreen,lastPipeLocation,posY,score, loopCount, velocity,tilemap);
+	LD	BC,(IX+27)
+	PUSH	BC
+	LD	BC,(IX+24)
+	PUSH	BC
+	LD	BC,(IX+21)
+	PUSH	BC
+	LD	BC,(IX+18)
+	PUSH	BC
+	LD	BC,(IX+15)
+	PUSH	BC
+	LD	BC,(IX+12)
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,(IX+6)
+	PUSH	BC
+	CALL	_KillPlayer
+	LD	IY,24
+	ADD	IY,SP
+	LD	SP,IY
+;  358	    }
+;  359	}
+L_82:
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _CheckIfKillShouldHappen ***************************
+;Name                         Addr/Register   Size   Type
+;posYInt                               IX-6      3   variable
+;posXInt                               IX-3      3   variable
+;tilemap                              IX+27      3   parameter
+;velocity                             IX+24      3   parameter
+;loopCount                            IX+21      3   parameter
+;score                                IX+18      3   parameter
+;posY                                 IX+15      3   parameter
+;lastPipeLocation                     IX+12      3   parameter
+;posYScreen                            IX+9      3   parameter
+;posX                                  IX+6      3   parameter
+
+
+; Stack Frame Size: 36 (bytes)
+;       Spill Code: -3 (instruction)
+
+
+;  360	
+;  361	void DrawLargeDigit(unsigned int digit, unsigned int x, unsigned int y) {
+_DrawLargeDigit:
+	CALL	__frameset0
+;  362	    switch(digit) {
+	LD	BC,(IX+6)	; spill
+L__73:
+	LD	HL,9
+	OR	A,A
+	SBC	HL,BC
+	JR	C,L_93
+	LD	HL,BC
+	ADD	HL,HL
+	ADD	HL,HL
+	OR	A,A
+	SBC	HL,BC
+	LD	BC,L__72
+	ADD	HL,BC
+	LD	HL,(HL)
+	JP	(HL)
+L__72:
+	DW24	L_83	
+
+	DW24	L_84	
+
+	DW24	L_85	
+
+	DW24	L_86	
+
+	DW24	L_87	
+
+	DW24	L_88	
+
+	DW24	L_89	
+
+	DW24	L_90	
+
+	DW24	L_91	
+
+	DW24	L_92	
+
+;  363	        case 0:
+L_83:
+;  364	            gfx_TransparentSprite(sprite_number_00, x, y);
+	LD	BC,(IX+12)
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,_sprite_number_00_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  365	            break;
+	JR	L_93
+;  366	        case 1:
+L_84:
+;  367	            gfx_TransparentSprite(sprite_number_01, x, y);
+	LD	BC,(IX+12)
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,_sprite_number_01_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  368	            break;
+	JR	L_93
+;  369	        case 2:
+L_85:
+;  370	            gfx_TransparentSprite(sprite_number_02, x, y);
+	LD	BC,(IX+12)
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,_sprite_number_02_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  371	            break;
+	JR	L_93
+;  372	        case 3:
+L_86:
+;  373	            gfx_TransparentSprite(sprite_number_03, x, y);
+	LD	BC,(IX+12)
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,_sprite_number_03_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  374	            break;
+	JR	L_93
+;  375	        case 4:
+L_87:
+;  376	            gfx_TransparentSprite(sprite_number_04, x, y);
+	LD	BC,(IX+12)
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,_sprite_number_04_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  377	            break;
+	JR	L_93
+;  378	        case 5:
+L_88:
+;  379	            gfx_TransparentSprite(sprite_number_05, x, y);
+	LD	BC,(IX+12)
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,_sprite_number_05_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  380	            break;
+	JR	L_93
+;  381	        case 6:
+L_89:
+;  382	            gfx_TransparentSprite(sprite_number_06, x, y);
+	LD	BC,(IX+12)
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,_sprite_number_06_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  383	            break;
+	JR	L_93
+;  384	        case 7:
+L_90:
+;  385	            gfx_TransparentSprite(sprite_number_07, x, y);
+	LD	BC,(IX+12)
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,_sprite_number_07_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  386	            break;
+	JR	L_93
+;  387	        case 8:
+L_91:
+;  388	            gfx_TransparentSprite(sprite_number_08, x, y);
+	LD	BC,(IX+12)
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,_sprite_number_08_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  389	            break;
+	JR	L_93
+;  390	        case 9:
+L_92:
+;  391	            gfx_TransparentSprite(sprite_number_09, x, y);
+	LD	BC,(IX+12)
+	PUSH	BC
+	LD	BC,(IX+9)
+	PUSH	BC
+	LD	BC,_sprite_number_09_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  392	            break;
+;  393	    }
+;  394	}
+L_93:
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _DrawLargeDigit ***************************
+;Name                         Addr/Register   Size   Type
+;_sprite_number_09_data              IMPORT    706   variable
+;_sprite_number_08_data              IMPORT    706   variable
+;_sprite_number_07_data              IMPORT    706   variable
+;_sprite_number_06_data              IMPORT    706   variable
+;_sprite_number_05_data              IMPORT    706   variable
+;_sprite_number_04_data              IMPORT    706   variable
+;_sprite_number_03_data              IMPORT    706   variable
+;_sprite_number_02_data              IMPORT    706   variable
+;_sprite_number_01_data              IMPORT    706   variable
+;_sprite_number_00_data              IMPORT    706   variable
+;_gfx_TransparentSprite              IMPORT  -----   function
+;y                                    IX+12      3   parameter
+;x                                     IX+9      3   parameter
+;digit                                 IX+6      3   parameter
+
+
+; Stack Frame Size: 15 (bytes)
+;       Spill Code: -5 (instruction)
+
+
+;  395	
+;  396	void PrintLargeNumber(unsigned int num) {
+_PrintLargeNumber:
+	LD	HL,-9
+	CALL	__frameset
+;  397	    unsigned int digitOne = (num/1)%10;
+	LD	BC,10
+	LD	HL,(IX+6)
+	CALL	__iremu
+	LD	(IX+-3),HL
+;  398	    unsigned int digitTwo = (num/10)%10;
+	LD	HL,(IX+6)
+	LD	BC,10
+	CALL	__idivu
+	LD	BC,10
+	CALL	__iremu
+	LD	(IX+-6),HL
+;  399	    unsigned int digitThree = (num/100)%10;
+	LD	HL,(IX+6)
+	LD	BC,100
+	CALL	__idivu
+	LD	BC,10
+	CALL	__iremu
+	LD	(IX+-9),HL
+;  400	    DrawLargeDigit(digitOne,320-32-(22*1),20);
+	LD	BC,20
+	PUSH	BC
+	LD	BC,266
+	PUSH	BC
+	LD	BC,(IX+-3)
+	PUSH	BC
+	CALL	_DrawLargeDigit
+	POP	BC
+	POP	BC
+	POP	BC
+;  401	    DrawLargeDigit(digitTwo,320-32-(22*2),20);
+	LD	BC,20
+	PUSH	BC
+	LD	BC,244
+	PUSH	BC
+	LD	BC,(IX+-6)
+	PUSH	BC
+	CALL	_DrawLargeDigit
+	POP	BC
+	POP	BC
+	POP	BC
+;  402	    DrawLargeDigit(digitThree,320-32-(22*3),20);
+	LD	BC,20
+	PUSH	BC
+	LD	BC,222
+	PUSH	BC
+	LD	BC,(IX+-9)
+	PUSH	BC
+	CALL	_DrawLargeDigit
+	POP	BC
+	POP	BC
+	POP	BC
+;  403	}
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _PrintLargeNumber ***************************
+;Name                         Addr/Register   Size   Type
+;digitThree                            IX-9      3   variable
+;digitTwo                              IX-6      3   variable
+;digitOne                              IX-3      3   variable
+;num                                   IX+6      3   parameter
+
+
+; Stack Frame Size: 18 (bytes)
+;       Spill Code: -5 (instruction)
+
+
+;  404	
+;  405	bool OnPause(unsigned int score) {
+_OnPause:
+	LD	HL,-11
+	CALL	__frameset
+;  406	    //If returned true, continue. If false, hault.
+;  407	    //Animate this.
+;  408	    unsigned int width=0;
+	LD	BC,0
+	LD	(IX+-3),BC
+;  409	    sk_key_t key;
+;  410	    unsigned int velocity = 2;
+	LD	BC,2
+	LD	(IX+-7),BC
+;  411	    unsigned int option = 0;
+	LD	BC,0
+	LD	(IX+-10),BC
+;  412	    
+;  413	    while(width<140) {
+	JR	L_95
+L_96:
+;  414	        //Draw box.
+;  415	        gfx_SetColor(gfx_red);
+	LD	BC,224
+	PUSH	BC
+	CALL	_gfx_SetColor
+	POP	BC
+;  416	        gfx_FillRectangle(320-width-1, 0, 1, 240);
+	LD	BC,240
+	PUSH	BC
+	LD	BC,1
+	PUSH	BC
+	LD	BC,0
+	PUSH	BC
+	LD	BC,(IX+-3)
+	LD	HL,320
+	OR	A,A
+	SBC	HL,BC
+	DEC	HL
+	PUSH	HL
+	CALL	_gfx_FillRectangle
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+;  417	        gfx_SetColor(gfx_white);
+	LD	BC,255
+	PUSH	BC
+	CALL	_gfx_SetColor
+	POP	BC
+;  418	        gfx_FillRectangle(320-width, 0, width, 240);
+	LD	BC,240
+	PUSH	BC
+	LD	BC,(IX+-3)
+	PUSH	BC
+	LD	BC,0
+	PUSH	BC
+	LD	BC,(IX+-3)
+	LD	HL,320
+	OR	A,A
+	SBC	HL,BC
+	PUSH	HL
+	CALL	_gfx_FillRectangle
+	POP	BC
+	POP	BC
+	POP	BC
+	POP	BC
+;  419	        PrintLargeNumber(score); //Draw score
+	LD	BC,(IX+6)
+	PUSH	BC
+	CALL	_PrintLargeNumber
+	POP	BC
+;  420	        gfx_SwapDraw(); //Swap buffer
+	CALL	_gfx_SwapDraw
+;  421	        width+=velocity/12;
+	LD	BC,12
+	LD	HL,(IX+-7)
+	CALL	__idivu
+	LD	BC,(IX+-3)
+	ADD	HL,BC
+	LD	(IX+-3),HL
+;  422	        velocity+=4;
+	LD	IY,(IX+-7)
+	LEA	IY,IY+4
+	LD	(IX+-7),IY
+;  423	    }
+L_95:
+	LD	BC,140
+	LD	HL,(IX+-3)
+	OR	A,A
+	SBC	HL,BC
+	JR	C,L_96
+;  424	    velocity-=4;
+	LD	IY,(IX+-7)
+	LEA	IY,IY+-4
+	LD	(IX+-7),IY
+;  425	    width-=velocity/12;
+	LD	HL,(IX+-7)
+	LD	BC,12
+	CALL	__idivu
+	LD	BC,HL
+	LD	HL,(IX+-3)
+	OR	A,A
+	SBC	HL,BC
+	LD	(IX+-3),HL
+;  426	    
+;  427	    while (true) {
+L_112:
+;  428	        bool shouldExit = false;
+	LD	(IX+-11),0
+;  429	        gfx_TransparentSprite(pause, width+70, 70);
+	LD	BC,70
+	PUSH	BC
+	LD	IY,(IX+-3)
+	LEA	BC,IY+70
+	PUSH	BC
+	LD	BC,_pause_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  430	        gfx_TransparentSprite(arrow, width+70, 98+(option*11));
+	LD	HL,(IX+-10)
+	ADD	HL,HL
+	LD	BC,(IX+-10)
+	ADD	HL,BC
+	ADD	HL,HL
+	ADD	HL,HL
+	OR	A,A
+	LD	BC,(IX+-10)
+	SBC	HL,BC
+	LD	IY,HL
+	LEA	BC,IY+98
+	PUSH	BC
+	LD	IY,(IX+-3)
+	LEA	BC,IY+70
+	PUSH	BC
+	LD	BC,_arrow_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  431	        gfx_SwapDraw();
+	CALL	_gfx_SwapDraw
+;  432	        while (true) {
+L_108:
+;  433	            key = os_GetCSC();
+	CALL	_os_GetCSC
+	LD	(IX+-4),A
+;  434	            if(key == sk_Up || key == sk_Down || key == sk_2nd) {
+	CP	A,4
+	JR	Z,L_106
+	LD	A,(IX+-4)
+	CP	A,1
+	JR	Z,L_106
+	LD	A,(IX+-4)
+	CP	A,54
+	JR	NZ,L_108
+L_106:
+;  435	                //Changed.
+;  436	                if(key==sk_Up || key == sk_Down) {
+	LD	A,(IX+-4)
+	CP	A,4
+	JR	Z,L_103
+	LD	A,(IX+-4)
+	CP	A,1
+	JR	NZ,L_104
+L_103:
+;  437	                    if(option==1) {
+	LD	BC,1
+	LD	HL,(IX+-10)
+	OR	A,A
+	SBC	HL,BC
+	JR	NZ,L_102
+;  438	                        option = 0;
+	LD	BC,0
+	LD	(IX+-10),BC
+;  439	                    } else {
+	JR	L_110
+L_102:
+;  440	                        option=1;
+	LD	(IX+-10),BC
+;  441	                    }
+;  442	                    
+;  443	                } else {
+	JR	L_110
+L_104:
+;  444	                    //Should eixt
+;  445	                    shouldExit=true;
+	LD	(IX+-11),1
+;  446	                }
+;  447	                break;
+;  448	            }
+;  449	        }
+L_110:
+;  450	        if(shouldExit) {
+	LD	A,(IX+-11)
+	OR	A,A
+	JR	Z,L_112
+;  451	            break;
+;  452	        }
+;  453	    }
+;  454	    gfx_SwapDraw();
+	CALL	_gfx_SwapDraw
+;  455	    return option==1;
+	LD	BC,1
+	LD	HL,(IX+-10)
+	OR	A,A
+	SBC	HL,BC
+	JR	NZ,L__86
+	LD	A,1
+	JR	L__87
+L__86:
+	XOR	A,A
+L__87:
+;  456	}
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _OnPause ***************************
+;Name                         Addr/Register   Size   Type
+;_os_GetCSC                          IMPORT  -----   function
+;_arrow_data                         IMPORT     62   variable
+;_pause_data                         IMPORT   4002   variable
+;_gfx_TransparentSprite              IMPORT  -----   function
+;_gfx_SwapDraw                       IMPORT  -----   function
+;_gfx_FillRectangle                  IMPORT  -----   function
+;_gfx_SetColor                       IMPORT  -----   function
+;shouldExit                           IX-11      1   variable
+;option                               IX-10      3   variable
+;velocity                              IX-7      3   variable
+;key                                   IX-4      1   variable
+;width                                 IX-3      3   variable
+;score                                 IX+6      3   parameter
+
+
+; Stack Frame Size: 20 (bytes)
+;       Spill Code: -5 (instruction)
+
+
+;  457	
+;  458	
+;  459	
+;  460	void main(void) {
+_main:
+	LD	HL,-317
+	CALL	__frameset
+;  461	    sk_key_t key;
+;  462		ti_var_t myAppVarRead;
+;  463	
+;  464	    unsigned int cycleCount = 0;
+	LD	BC,0
+	LD	(IX+-29),BC
+;  465	    unsigned int pipeCount = 0;
+	LD	(IX+-53),BC
+;  466	
+;  467	    bool shouldExit = false;
+	LD	(IX+-17),0
+;  468	
+;  469	    signed int velocityY = 0;
+	LD	(IX+-10),BC
+;  470	    signed int posY = DEFAULT_BIRD_Y*80;
+	LD	BC,2400
+	LD	(IX+-16),BC
+;  471	    signed int posX = 0;
+	LD	BC,0
+	LD	(IX+-3),BC
+;  472	    signed int lastPipeLocation=0;
+	LD	(IX+-20),BC
+;  473	
+;  474	    unsigned int screenLoopWrapCount=0;
+	LD	(IX+-23),BC
+;  475	    unsigned int scoreOffset=0;
+	LD	(IX+-56),BC
+;  476	    
+;  477	    gfx_tilemap_t tilemap;
+;  478	
+;  479	    /* Initialize the sprites */
+;  480	    gfx_UninitedSprite(sprite_buffer, bird_width, bird_height);
+;  481	
+;  482	    /* Initialize the tilemap structure */
+;  483	    tilemap.map         = tilemap_map;
+	LD	BC,_tilemap_map
+	LD	(IX+-47),BC
+;  484	    tilemap.tiles       = tileset_tiles;
+	LD	BC,_tileset_tiles_data
+	LD	(IX+-44),BC
+;  485	    tilemap.type_width  = gfx_tile_16_pixel;
+	LD	(IX+-37),4
+;  486	    tilemap.type_height = gfx_tile_16_pixel;
+	LD	(IX+-36),4
+;  487	    tilemap.tile_height = TILE_HEIGHT;
+	LD	(IX+-41),16
+;  488	    tilemap.tile_width  = TILE_WIDTH;
+	LD	(IX+-40),16
+;  489	    tilemap.draw_height = TILEMAP_DRAW_HEIGHT;
+	LD	(IX+-39),15
+;  490	    tilemap.draw_width  = TILEMAP_DRAW_WIDTH;
+	LD	(IX+-38),20
+;  491	    tilemap.height      = TILEMAP_HEIGHT;
+	LD	(IX+-35),15
+;  492	    tilemap.width       = TILEMAP_WIDTH;
+	LD	(IX+-34),100
+;  493	    tilemap.y_loc       = Y_OFFSET;
+	LD	(IX+-33),0
+;  494	    tilemap.x_loc       = X_OFFSET;
+	LD	BC,0
+	LD	(IX+-32),BC
+;  495	
+;  496	    /* Initialize the 8bpp graphics */
+;  497	    gfx_Begin();
+	CALL	_gfx_Begin
+;  498	
+;  499	    /* Seed random numbers */
+;  500	    srand(rtc_Time());
+	LD	BC,(15925316)
+	PUSH	BC
+	CALL	_srand
+	POP	BC
+;  501	
+;  502	    /* Set up the palette */
+;  503	    gfx_SetPalette(tiles_gfx_pal, sizeof_tiles_gfx_pal, 0);
+	LD	BC,0
+	PUSH	BC
+	LD	BC,364
+	PUSH	BC
+	LD	BC,_tiles_gfx_pal
+	PUSH	BC
+	CALL	_gfx_SetPalette
+	POP	BC
+	POP	BC
+	POP	BC
+;  504	    //gfx_SetPalette(logo_gfx_pal, sizeof_logo_gfx_pal, 0);
+;  505	    gfx_SetColor(gfx_white);
+	LD	BC,255
+	PUSH	BC
+	CALL	_gfx_SetColor
+	POP	BC
+;  506	
+;  507	    /* Draw to buffer to avoid tearing */
+;  508	    gfx_SetDrawBuffer();
+	LD	BC,1
+	PUSH	BC
+	CALL	_gfx_SetDraw
+	POP	BC
+;  509	
+;  510	    /* Set monospace font with width of 8 */
+;  511	    gfx_SetMonospaceFont(8);
+	LD	BC,8
+	PUSH	BC
+	CALL	_gfx_SetMonospaceFont
+	POP	BC
+;  512	
+;  513	    /* Create the background. */
+;  514	    FillPrettyTilemap(&tilemap);
+	PEA	IX+-47
+	CALL	_FillPrettyTilemap
+	POP	BC
+;  515	    
+;  516		
+;  517	    while ((key = os_GetCSC()) != sk_Graph) {
+	JR	L_136
+L_137:
+;  518			/* Main Game Loop */
+;  519	        /* Variable init */
+;  520	        signed int posYScreen = (posY/80);
+	LD	BC,80
+	LD	HL,(IX+-16)
+	CALL	__idivs
+	LD	(IX+-59),HL
+;  521	        signed int currentTile = posX/16;
+	LD	HL,(IX+-3)
+	LD	BC,16
+	CALL	__idivs
+	LD	(IX+-6),HL
+;  522	        unsigned int score = CalculateScore(posX,screenLoopWrapCount);
+	LD	BC,(IX+-23)
+	PUSH	BC
+	LD	BC,(IX+-3)
+	PUSH	BC
+	CALL	_CalculateScore
+	POP	BC
+	POP	BC
+	LD	(IX+-26),HL
+;  523	
+;  524	        /* Physics */
+;  525	
+;  526	        velocityY+=60;
+	LD	IY,(IX+-10)
+	LEA	BC,IY+60
+	LD	(IX+-10),BC
+;  527	        posY+=velocityY;
+	LD	HL,(IX+-16)
+	ADD	HL,BC
+	LD	(IX+-16),HL
+;  528	        posX+=3;
+	LD	IY,(IX+-3)
+	LEA	BC,IY+3
+	LD	(IX+-3),BC
+;  529	        cycleCount+=1;
+	LD	BC,(IX+-29)
+	INC	BC
+	LD	(IX+-29),BC
+;  530	
+;  531	        /* Pipe creation */
+;  532	
+;  533	        if((currentTile+TILEMAP_DRAW_WIDTH)%SPACE_BETWEEN_PIPES==0 && lastPipeLocation<(currentTile+TILEMAP_DRAW_WIDTH)) {
+	LD	IY,(IX+-6)
+	LEA	IY,IY+20
+	LD	(IX+-13),IY
+	LD	HL,(IX+-13)
+	LD	BC,6
+	CALL	__irems
+	OR	A,A
+	LD	BC,0
+	SBC	HL,BC
+	JR	NZ,L_117
+	LD	BC,(IX+-13)
+	LD	HL,(IX+-20)
+	OR	A,A
+	SBC	HL,BC
+	JP	P,L_117
+;  534	            //We should add a pipe.
+;  535	
+;  536	            //Reseed
+;  537	            srand(rtc_Time()*cycleCount);
+	XOR	A,A
+	LD	B,A
+	LD	A,(15925319)
+	LD	E,A
+	LD	A,B
+	LD	BC,(IX+-29)
+	LD	HL,(15925316)
+	CALL	__lmulu
+	LD	BC,HL
+	PUSH	HL
+	CALL	_srand
+	POP	BC
+;  538	            AddPipe((currentTile+TILEMAP_DRAW_WIDTH),&tilemap);
+	PEA	IX+-47
+	LD	IY,(IX+-6)
+	LEA	BC,IY+20
+	PUSH	BC
+	CALL	_AddPipe
+	POP	BC
+	POP	BC
+;  539	            lastPipeLocation=(currentTile+TILEMAP_DRAW_WIDTH);
+	LD	BC,(IX+-13)
+	LD	(IX+-20),BC
+;  540	            pipeCount+=1;
+	LD	BC,(IX+-53)
+	INC	BC
+	LD	(IX+-53),BC
+;  541	        }
+L_117:
+;  542	
+;  543	        /* Rendering */
+;  544	        gfx_Tilemap(&tilemap, posX, 0); //Pipes and background
+	LD	BC,0
+	PUSH	BC
+	LD	BC,(IX+-3)
+	PUSH	BC
+	PEA	IX+-47
+	CALL	_gfx_Tilemap
+	POP	BC
+	POP	BC
+	POP	BC
+;  545	        gfx_TransparentSprite(bird, 42, posYScreen); //Character
+	LD	BC,(IX+-59)
+	PUSH	BC
+	LD	BC,42
+	PUSH	BC
+	LD	BC,_bird_data
+	PUSH	BC
+	CALL	_gfx_TransparentSprite
+	POP	BC
+	POP	BC
+	POP	BC
+;  546	        PrintLargeNumber(score); //Score
+	LD	BC,(IX+-26)
+	PUSH	BC
+	CALL	_PrintLargeNumber
+	POP	BC
+;  547	        
+;  548	        /* Rendering debugging 
+;  549	        gfx_SetMonospaceFont(8);
+;  550	        gfx_SetColor(gfx_black);
+;  551	        gfx_PrintStringXY("Cycles:    ",30,20);
+;  552	        gfx_PrintUInt(cycleCount, 8);
+;  553	        gfx_PrintStringXY("Velocity Y:",30,30);
+;  554	        gfx_PrintUInt(velocityY, 8);
+;  555	        gfx_PrintStringXY("Pos Y:     ",30,40);
+;  556	        gfx_PrintUInt(posYScreen, 8);
+;  557	        gfx_PrintStringXY("Pos X:     ",30,50);
+;  558	        gfx_PrintUInt(posX, 8);
+;  559	        gfx_PrintStringXY("Pos X Tile:",30,60);
+;  560	        gfx_PrintUInt(currentTile, 8);
+;  561	        gfx_PrintStringXY("Score:     ",30,70);
+;  562	        gfx_PrintUInt(CalculateScore(posX,screenLoopWrapCount), 8);*/
+;  563	
+;  564	        /* Collision detection and game finish */
+;  565	        CheckIfKillShouldHappen(&posX, &posYScreen, &lastPipeLocation, &posY,score, &screenLoopWrapCount, &velocityY, &tilemap);
+	PEA	IX+-47
+	PEA	IX+-10
+	PEA	IX+-23
+	LD	BC,(IX+-26)
+	PUSH	BC
+	PEA	IX+-16
+	PEA	IX+-20
+	PEA	IX+-59
+	PEA	IX+-3
+	CALL	_CheckIfKillShouldHappen
+	LD	IY,24
+	ADD	IY,SP
+	LD	SP,IY
+;  566	
+;  567	        /* Clearing out of range objects */
+;  568	
+;  569	        if(currentTile-2>=0) {
+	LD	IY,(IX+-6)
+	LEA	HL,IY+-2
+	OR	A,A
+	LD	BC,0
+	SBC	HL,BC
+	JP	M,L__104
+	JP	PE,L_119
+	JR	L__105
+L__104:
+	JP	PO,L_119
+L__105:
+;  570	            //Clear out any pipes beyond here.
+;  571	            FillPrettyVerticalStrip(&tilemap,currentTile-2);
+	LD	IY,(IX+-6)
+	LEA	BC,IY+-2
+	PUSH	BC
+	PEA	IX+-47
+	CALL	_FillPrettyVerticalStrip
+	POP	BC
+	POP	BC
+;  572	        }
+L_119:
+;  573	
+;  574	        FillPrettyVerticalStrip(&tilemap,currentTile+8+TILEMAP_DRAW_WIDTH); //Clear in front of user
+	LD	IY,(IX+-6)
+	LEA	BC,IY+28
+	PUSH	BC
+	PEA	IX+-47
+	CALL	_FillPrettyVerticalStrip
+	POP	BC
+	POP	BC
+;  575	
+;  576	       /* Infinite scroll logic */
+;  577	
+;  578	        if(currentTile>40) {
+	LD	BC,(IX+-6)
+	LD	HL,40
+	OR	A,A
+	SBC	HL,BC
+	JP	P,L__106
+	JP	PE,L_133
+	JR	L__107
+L__106:
+	JP	PO,L_133
+L__107:
+;  579	            unsigned int i = currentTile;
+;  580	            posX-=(30*16);
+	LD	BC,16776736
+	LD	HL,(IX+-3)
+	ADD	HL,BC
+	LD	(IX+-3),HL
+;  581	            currentTile=0;
+;  582	            lastPipeLocation=TILEMAP_DRAW_WIDTH;
+	LD	BC,20
+	LD	(IX+-20),BC
+;  583	            //Clear out this area.
+;  584	            FillPrettyTilemapAfterViewpoint(&tilemap);
+	PEA	IX+-47
+	CALL	_FillPrettyTilemapAfterViewpoint
+	POP	BC
+;  585	            screenLoopWrapCount+=1;
+	LD	BC,(IX+-23)
+	INC	BC
+	LD	(IX+-23),BC
+;  586	            scoreOffset+=CalculateScore(posX,0);
+	LD	BC,0
+	PUSH	BC
+	LD	BC,(IX+-3)
+	PUSH	BC
+	CALL	_CalculateScore
+	POP	BC
+	POP	BC
+	LD	BC,(IX+-56)
+	ADD	HL,BC
+	LD	(IX+-56),HL
+;  587	        }
+L_133:
+;  588	
+;  589	        /* User input */
+;  590			
+;  591	        switch (key) {
+	LD	A,(IX+-7)
+	UEXT	HL
+	LD	L,A
+	LD	BC,HL	; spill
+L__94:
+	LD	DE,15
+	OR	A,A
+	SBC	HL,DE
+	JR	Z,L_123
+	LD	HL,15
+	OR	A,A
+	SBC	HL,BC
+	JR	C,L__96
+	LD	DE,1
+	LD	HL,BC	; spill
+	OR	A,A
+	SBC	HL,DE
+	JR	C,L_134
+	LD	HL,3
+	OR	A,A
+	SBC	HL,BC
+	JR	C,L_134
+	LD	HL,BC
+	ADD	HL,HL
+	ADD	HL,HL
+	OR	A,A
+	SBC	HL,BC
+	LD	DE,L__93-3
+	ADD	HL,DE
+	LD	HL,(HL)
+	JP	(HL)
+L__93:
+	DW24	L_122	
+
+	DW24	L_134	
+
+	DW24	L_129	
+
+L__96:
+	LD	DE,54
+	LD	HL,BC	; spill
+	OR	A,A
+	SBC	HL,DE
+	JR	NZ,L_134
+;  592	            case sk_2nd:
+;  593					//The user has jumped.
+;  594	                velocityY=-430;
+	LD	BC,16776786
+	LD	(IX+-10),BC
+;  595	                break;
+	JR	L_134
+;  596	            case sk_Down:
+L_122:
+;  597					//Debugging.
+;  598	                posX-=8;
+	LD	IY,(IX+-3)
+	LEA	IY,IY+-8
+	LD	(IX+-3),IY
+;  599	                break;
+	JR	L_134
+;  600	            case sk_Clear:
+L_123:
+;  601	                shouldExit = !OnPause(score);
+	LD	BC,(IX+-26)
+	PUSH	BC
+	CALL	_OnPause
+	POP	BC
+	OR	A,A
+	JR	NZ,L_125
+	LD	BC,1
+	LD	(IX+-50),BC
+	JR	L_126
+L_125:
+	LD	BC,0
+	LD	(IX+-50),BC
+L_126:
+	LD	A,(IX+-50)
+	LD	(IX+-17),A
+;  602	                break;
+	JR	L_134
+;  603	            case sk_Right:
+;  604					//Debugging.
+;  605	                while ((key = os_GetCSC()) != sk_Graph);
+L_129:
+	CALL	_os_GetCSC
+	LD	(IX+-7),A
+	CP	A,49
+	JR	NZ,L_129
+;  606	                break;
+;  607	            default:
+;  608	                break;
+;  609	        }
+L_134:
+;  610			
+;  611	        /* Finish rendering */
+;  612	        //Last step: Mask the last 16 pixels on the right side.
+;  613	        DrawDisplayBufferMask();
+	CALL	_DrawDisplayBufferMask
+;  614			
+;  615			//Flush buffer
+;  616	        gfx_SwapDraw();
+	CALL	_gfx_SwapDraw
+;  617	
+;  618	        //Check if should exit.
+;  619	        if(shouldExit) {
+	LD	A,(IX+-17)
+	OR	A,A
+	JR	NZ,L_138
+;  620	            break;
+;  621	        }
+;  622	    }
+L_136:
+	CALL	_os_GetCSC
+	LD	(IX+-7),A
+	CP	A,49
+	JR	NZ,L_137
+L_138:
+;  623	
+;  624		
+;  625	    /* Close the graphics and return to the OS */
+;  626	    gfx_End();
+	CALL	_gfx_End
+;  627	}
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _main ***************************
+;Name                         Addr/Register   Size   Type
+;_gfx_End                            IMPORT  -----   function
+;_gfx_SwapDraw                       IMPORT  -----   function
+;_os_GetCSC                          IMPORT  -----   function
+;_bird_data                          IMPORT    258   variable
+;_gfx_TransparentSprite              IMPORT  -----   function
+;_gfx_Tilemap                        IMPORT  -----   function
+;_gfx_SetMonospaceFont               IMPORT  -----   function
+;_gfx_SetDraw                        IMPORT  -----   function
+;_gfx_SetColor                       IMPORT  -----   function
+;_tiles_gfx_pal                      IMPORT    364   variable
+;_gfx_SetPalette                     IMPORT  -----   function
+;_srand                              IMPORT  -----   function
+;_gfx_Begin                          IMPORT  -----   function
+;_tileset_tiles_data                 IMPORT    132   variable
+;_tilemap_map                        IMPORT  unknown variable
+;sprite_buffer_data                  IX-317    258   variable
+;posYScreen                           IX-59      3   variable
+;scoreOffset                          IX-56      3   variable
+;pipeCount                            IX-53      3   variable
+;temp127                              IX-50      3   variable
+;tilemap                              IX-47     18   variable
+;cycleCount                           IX-29      3   variable
+;score                                IX-26      3   variable
+;screenLoopWrapCount                  IX-23      3   variable
+;lastPipeLocation                     IX-20      3   variable
+;shouldExit                           IX-17      1   variable
+;posY                                 IX-16      3   variable
+;G_1                                  IX-13      3   variable
+;velocityY                            IX-10      3   variable
+;key                                   IX-7      1   variable
+;currentTile                           IX-6      3   variable
+;posX                                  IX-3      3   variable
+
+
+; Stack Frame Size: 323 (bytes)
+;       Spill Code: -9 (instruction)
+
+
+	XREF _tilemap_map:ROM
+	XREF _tiles_gfx_pal:ROM
+	XREF _tileset_tiles_data:ROM
+	XREF _pause_data:ROM
+	XREF _arrow_data:ROM
+	XREF _sprite_dither_data:ROM
+	XREF _sprite_number_09_data:ROM
+	XREF _sprite_number_08_data:ROM
+	XREF _sprite_number_07_data:ROM
+	XREF _sprite_number_06_data:ROM
+	XREF _sprite_number_05_data:ROM
+	XREF _sprite_number_04_data:ROM
+	XREF _sprite_number_03_data:ROM
+	XREF _sprite_number_02_data:ROM
+	XREF _sprite_number_01_data:ROM
+	XREF _sprite_number_00_data:ROM
+	XREF _sprite_2nd_0_data:ROM
+	XREF _sprite_2nd_1_data:ROM
+	XREF _sprite_scoreboard_data:ROM
+	XREF _bird_90_data:ROM
+	XREF _bird_data:ROM
+	XREF _gfx_SetMonospaceFont:ROM
+	XREF _gfx_TransparentSprite:ROM
+	XREF _gfx_PrintStringXY:ROM
+	XREF _gfx_PrintUInt:ROM
+	XREF _gfx_SwapDraw:ROM
+	XREF _gfx_SetDraw:ROM
+	XREF _gfx_FillRectangle:ROM
+	XREF _gfx_SetPixel:ROM
+	XREF _gfx_SetPalette:ROM
+	XREF _gfx_SetColor:ROM
+	XREF _gfx_Tilemap:ROM
+	XREF _gfx_End:ROM
+	XREF _gfx_Begin:ROM
+	XREF _srand:ROM
+	XREF _os_GetCSC:ROM
+	XREF _random:ROM
+	XREF __idivs:ROM
+	XREF __idivu:ROM
+	XREF __imulu:ROM
+	XREF __lmulu:ROM
+	XREF __irems:ROM
+	XREF __iremu:ROM
+	XREF __frameset0:ROM
+	XREF __frameset:ROM
+	XDEF _main
+	XDEF _OnPause
+	XDEF _PrintLargeNumber
+	XDEF _DrawLargeDigit
+	XDEF _CheckIfKillShouldHappen
+	XDEF _KillPlayer
+	XDEF _CalculateScore
+	XDEF _FadeDisplayRedraw
+	XDEF _FadeDisplay
+	XDEF _CheckCollision
+	XDEF _AddPipe
+	XDEF _AddRawPipe
+	XDEF _GetPipeTypeAtPos
+	XDEF _FillPrettyTilemapAfterViewpoint
+	XDEF _FillPrettyTilemap
+	XDEF _FillPrettyVerticalStrip
+	XDEF _WriteFourByFourTileAtPos
+	XDEF _WriteToVerticalStrip
+	XDEF _GetTilePos
+	XDEF _ScreenPosDebugger
+	XDEF _DrawDisplayBufferMask
+	XDEF _WriteToTilePos
+	END
