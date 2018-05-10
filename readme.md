@@ -2,7 +2,7 @@
 
 An project I made in a weekend to play around with C.
 
-![Screenshot](screenshot.gif)
+![Screenshot](animated_preview.gif)
 
 This project was compiled by the amazing Ti 84 Plus CE compiler [here](https://github.com/CE-Programming/toolchain,"Toolchain")
 
