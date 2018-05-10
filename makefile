@@ -7,11 +7,11 @@
 # ** Add all shared library names to L **
 # ----------------------------
 
-NAME        ?= PETROCK
+NAME        ?= FLAPBIRD
 DEBUGMODE   ?= NDEBUG
 COMPRESSED  ?= NO
 ICON        ?= iconc.png
-DESCRIPTION ?= "C SDK Demo"
+DESCRIPTION ?= "Flappy Bird Demo"
 
 L ?= graphx
 L += fileioc
